@@ -1,3 +1,18 @@
+/*
+ * Copyright 2015 Daniel Murari Boatto
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 #ifndef __REALTIMECLOCK_H__
 #define __REALTIMECLOCK_H__
 
@@ -17,12 +32,12 @@ class RealTimeClock
 {
 public:
 	RealTimeClock();
-	~RealTimeClock();
     //
     void setDateTime(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
     void syncDateTime();
     bool wasItStopped() const;
     //
+    bool forceTemperatureUpdate() const;
     float getTemperature() const;
     //
     void enableBattery() const;
@@ -41,6 +56,9 @@ public:
     void enableBatteryBackedSquareWave(SquareWaveFrequency frequency) const;
     void disableBatteryBackedSquareWave() const;
     bool isBatteryBackedSquareWaveEnabled() const;
+    //
+    void setCalibration(int8_t value) const;
+    int8_t getCalibration() const;
     //
     uint8_t getSecond() const;
     uint8_t getMinute() const;
@@ -64,10 +82,10 @@ private:
     void toggleBattery(bool on) const;
     void toggle32khzOutput(bool on) const;
     void toggleSquareWave(bool on, SquareWaveFrequency frequency) const;
-    void toggleBatteryBackedSquareWave(bool on, SquareWaveFrequency frequency) const;
+    void toggleBatteryBackedSquareWave(bool on) const;
     //
-    uint8_t getRegister(uint8_t address) const;
-    void setRegister(uint8_t address, uint8_t value) const;
+    uint8_t readRegister(uint8_t address) const;
+    void writeRegister(uint8_t address, uint8_t value) const;
 };
 
 #endif //__REALTIMECLOCK_H__

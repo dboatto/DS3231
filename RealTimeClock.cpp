@@ -1,3 +1,18 @@
+/*
+ * Copyright 2015 Daniel Murari Boatto
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 #include "RealTimeClock.h"
 
 #define RTC_ADDR_I2C         0x68
@@ -5,6 +20,7 @@
 #define RTC_ADDR_TEMPERATURE 0x11
 #define RTC_ADDR_STATUS      0x0F
 #define RTC_ADDR_CONTROL     0x0E
+#define RTC_ADDR_AGING       0x10
 
 #define RTC_REG_STATUS_A1F     0 //Alarm 1 Flag (A1F)
 #define RTC_REG_STATUS_A2F     1 //Alarm 2 Flag (A2F)
@@ -26,15 +42,11 @@ RealTimeClock::RealTimeClock()
     Wire.begin();
 }
 
-RealTimeClock::~RealTimeClock()
-{
-}
-
 /*************************************************************************************************/
 
 bool RealTimeClock::wasItStopped() const
 {
-    return BinaryHelper::istBitSet(getRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
+    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
 }
 
 void RealTimeClock::setDateTime(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
@@ -102,9 +114,9 @@ uint8_t RealTimeClock::calculateDayOfWeek(int16_t year, uint8_t month, uint8_t d
 
 void RealTimeClock::clearOscillatorStopFlag() const
 {
-    uint8_t statusRegister = getRegister(RTC_ADDR_STATUS);
+    uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     statusRegister = BinaryHelper::setBitOff(statusRegister, RTC_REG_STATUS_OSF);
-    setRegister(RTC_ADDR_STATUS, statusRegister);
+    writeRegister(RTC_ADDR_STATUS, statusRegister);
 }
 
 uint8_t RealTimeClock::getSecond() const
@@ -144,6 +156,19 @@ uint8_t RealTimeClock::getDayOfWeek() const
 
 /*************************************************************************************************/
 
+bool RealTimeClock::forceTemperatureUpdate() const
+{
+    uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
+    if (BinaryHelper::istBitSet(statusRegister, RTC_REG_STATUS_BSY))
+    {
+        return false;
+    }
+    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
+    controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_CONV);
+    writeRegister(RTC_ADDR_CONTROL, controlRegister);
+    return true;
+}
+
 float RealTimeClock::getTemperature() const
 {
     uint8_t decimalPart, resolution;
@@ -169,7 +194,7 @@ float RealTimeClock::getTemperature() const
 
 bool RealTimeClock::isBatteryEnabled() const
 {
-    return !BinaryHelper::istBitSet(getRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
+    return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
 }
 
 void RealTimeClock::enableBattery() const
@@ -184,7 +209,7 @@ void RealTimeClock::disableBattery() const
 
 void RealTimeClock::toggleBattery(bool on) const
 {
-    uint8_t controlRegister = getRegister(RTC_ADDR_CONTROL);
+    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     if (on)
     {
         controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_EOSC);
@@ -194,14 +219,14 @@ void RealTimeClock::toggleBattery(bool on) const
         controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_EOSC);
 
     }
-    setRegister(RTC_ADDR_CONTROL, controlRegister);
+    writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
 /*************************************************************************************************/
 
 bool RealTimeClock::is32khzOutputEnabled() const
 {
-    return BinaryHelper::istBitSet(getRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
+    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
 }
 
 void RealTimeClock::enable32khzOutput() const
@@ -216,7 +241,7 @@ void RealTimeClock::disable32khzOutput() const
 
 void RealTimeClock::toggle32khzOutput(bool on) const
 {
-    uint8_t statusRegister = getRegister(RTC_ADDR_STATUS);
+    uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     if (on)
     {
         statusRegister = BinaryHelper::setBitOn(statusRegister, RTC_REG_STATUS_EN32KHZ);
@@ -226,47 +251,46 @@ void RealTimeClock::toggle32khzOutput(bool on) const
         statusRegister = BinaryHelper::setBitOff(statusRegister, RTC_REG_STATUS_EN32KHZ);
 
     }
-    setRegister(RTC_ADDR_STATUS, statusRegister);
+    writeRegister(RTC_ADDR_STATUS, statusRegister);
 }
 
 /*************************************************************************************************/
 
 bool RealTimeClock::isBatteryBackedSquareWaveEnabled() const
 {
-    return BinaryHelper::istBitSet(getRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
+    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
 }
 
 void RealTimeClock::enableBatteryBackedSquareWave(SquareWaveFrequency frequency) const
 {
-    toggleBatteryBackedSquareWave(true, frequency);
+    toggleBatteryBackedSquareWave(true);
     enableSquareWave(frequency);
 }
 
 void RealTimeClock::disableBatteryBackedSquareWave() const
 {
-    toggleBatteryBackedSquareWave(false, FREQ_1HZ);
+    toggleBatteryBackedSquareWave(false);
 }
 
-void RealTimeClock::toggleBatteryBackedSquareWave(bool on, SquareWaveFrequency frequency) const
+void RealTimeClock::toggleBatteryBackedSquareWave(bool on) const
 {
-    uint8_t controlRegister = getRegister(RTC_ADDR_CONTROL);
+    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     if (on)
     {
-        controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
         controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_BBSQW);
     }
     else
     {
         controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_BBSQW);
     }
-    setRegister(RTC_ADDR_CONTROL, controlRegister);
+    writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
 /*************************************************************************************************/
 
 bool RealTimeClock::isSquareWaveEnabled() const
 {
-    return !BinaryHelper::istBitSet(getRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
+    return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
 }
 
 void RealTimeClock::enableSquareWave(SquareWaveFrequency frequency) const
@@ -283,7 +307,7 @@ void RealTimeClock::disableSquareWave() const
 
 void RealTimeClock::toggleSquareWave(bool on, SquareWaveFrequency frequency) const
 {
-    uint8_t controlRegister = getRegister(RTC_ADDR_CONTROL);
+    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
 
     if (on)
     {
@@ -315,12 +339,12 @@ void RealTimeClock::toggleSquareWave(bool on, SquareWaveFrequency frequency) con
     {
         controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
     }
-    setRegister(RTC_ADDR_CONTROL, controlRegister);
+    writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
 SquareWaveFrequency RealTimeClock::getSquareWaveFrequency() const
 {
-    uint8_t controlRegister = getRegister(RTC_ADDR_CONTROL);
+    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     bool rs1 = BinaryHelper::istBitSet(controlRegister, RTC_REG_CONTROL_RS1);
     bool rs2 = BinaryHelper::istBitSet(controlRegister, RTC_REG_CONTROL_RS2);
 
@@ -344,7 +368,19 @@ SquareWaveFrequency RealTimeClock::getSquareWaveFrequency() const
 
 /*************************************************************************************************/
 
-uint8_t RealTimeClock::getRegister(uint8_t address) const
+void RealTimeClock::setCalibration(int8_t value) const
+{
+    writeRegister(RTC_ADDR_AGING, value);
+}
+
+int8_t RealTimeClock::getCalibration() const
+{
+    return readRegister(RTC_ADDR_AGING);
+}
+
+/*************************************************************************************************/
+
+uint8_t RealTimeClock::readRegister(uint8_t address) const
 {
     Wire.beginTransmission(RTC_ADDR_I2C);
     Wire.write(address);
@@ -353,7 +389,7 @@ uint8_t RealTimeClock::getRegister(uint8_t address) const
     return (uint8_t)Wire.read();
 }
 
-void RealTimeClock::setRegister(uint8_t address, uint8_t value) const
+void RealTimeClock::writeRegister(uint8_t address, uint8_t value) const
 {
     Wire.beginTransmission(RTC_ADDR_I2C);
     Wire.write(address);
