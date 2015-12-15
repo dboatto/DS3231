@@ -15,6 +15,7 @@
  */
 #ifndef BINARYHELPER_H_
 #define BINARYHELPER_H_
+
 #include <stdint.h>
 
 class BinaryHelper

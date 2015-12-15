@@ -13,34 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#ifndef __ALARM1_H__
+#define __ALARM1_H__
+
+#include <stdint.h>
+#include <Wire.h>
+#include "BaseClock.h"
 #include "BinaryHelper.h"
 
-int16_t BinaryHelper::fromDecimalToBcd(int16_t value)
+class Alarm1 : public BaseClock
 {
-    return (value / 10 * 16) + (value % 10);
-}
+public:
+    Alarm1();
+    void turnOn();
+    void turnOff();
+    void readAlarm();
+    void writeAlarm(uint8_t dayOfWeek, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
+    uint8_t getSecond() const;
+    uint8_t getMinute() const;
+    uint8_t getHour() const;
+    uint8_t getDay() const;
+    uint8_t getDayOfWeek() const;
 
-int16_t BinaryHelper::fromBcdToDecimal(int16_t value)
-{
-    return (value / 16 * 10) + (value % 16);
-}
+private:
+    uint8_t _second;
+    uint8_t _minute;
+    uint8_t _day;
+    uint8_t _hour;
+    uint8_t _dayOfWeek;
+};
 
-uint8_t BinaryHelper::setBitOn(uint8_t value, uint8_t bit)
-{
-    return value | ( 1 << bit);
-}
-
-uint8_t BinaryHelper::setBitOff(uint8_t value, uint8_t bit)
-{
-    return value & ~( 1 << bit);
-}
-
-uint8_t BinaryHelper::toggleBit(uint8_t value, uint8_t bit)
-{
-    return value ^ (1 << bit);
-}
-
-bool BinaryHelper::istBitSet(uint8_t value, uint8_t bit)
-{
-    return (value >> bit) & 1;
-}
+ #endif //__ALARM1_H__

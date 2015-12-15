@@ -15,31 +15,8 @@
  */
 #include "RealTimeClock.h"
 
-#define RTC_ADDR_I2C         0x68
-#define RTC_ADDR_DATE        0x00
-#define RTC_ADDR_TEMPERATURE 0x11
-#define RTC_ADDR_STATUS      0x0F
-#define RTC_ADDR_CONTROL     0x0E
-#define RTC_ADDR_AGING       0x10
-
-#define RTC_REG_STATUS_A1F     0 //Alarm 1 Flag (A1F)
-#define RTC_REG_STATUS_A2F     1 //Alarm 2 Flag (A2F)
-#define RTC_REG_STATUS_BSY     2 //Busy (BSY)
-#define RTC_REG_STATUS_EN32KHZ 3 //Enable 32kHz Output (EN32kHz)
-#define RTC_REG_STATUS_OSF     7 //Oscillator Stop Flag (OSF)
-
-#define RTC_REG_CONTROL_A1IE   0 //Alarm 1 Interrupt Enable (A1IE)
-#define RTC_REG_CONTROL_A2IE   1 //Alarm 2 Interrupt Enable (A2IE)
-#define RTC_REG_CONTROL_INTCN  2 //Interrupt Control (INTCN)
-#define RTC_REG_CONTROL_RS1    3 //Rate Select (RS1)
-#define RTC_REG_CONTROL_RS2    4 //Rate Select (RS2)
-#define RTC_REG_CONTROL_CONV   5 //Convert Temperature (CONV)
-#define RTC_REG_CONTROL_BBSQW  6 //Battery-Backed Square-Wave Enable (BBSQW)
-#define RTC_REG_CONTROL_EOSC   7 //Enable Oscillator (EOSC)
-
 RealTimeClock::RealTimeClock()
 {
-    Wire.begin();
 }
 
 /*************************************************************************************************/
@@ -49,7 +26,7 @@ bool RealTimeClock::wasItStopped() const
     return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
 }
 
-void RealTimeClock::setDateTime(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
+void RealTimeClock::writeDateTime(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
 {
     uint8_t century = 0;
 
@@ -59,7 +36,7 @@ void RealTimeClock::setDateTime(int16_t year, uint8_t month, uint8_t day, uint8_
     _day       = day;
     _month     = month;
     _year      = year;
-    _dayOfWeek = calculateDayOfWeek(year, month, day);
+    _dayOfWeek = calculateDayOfWeek(year, month, day) + 1;
 
     if (year > 2000)
     {
@@ -85,7 +62,7 @@ void RealTimeClock::setDateTime(int16_t year, uint8_t month, uint8_t day, uint8_
     clearOscillatorStopFlag();
 }
 
-void RealTimeClock::syncDateTime()
+void RealTimeClock::readDateTime()
 {
     Wire.beginTransmission(RTC_ADDR_I2C);
     Wire.write(RTC_ADDR_DATE);
@@ -105,18 +82,18 @@ void RealTimeClock::syncDateTime()
     _year += ((monthAndCentury & 0x80) != 0 ? 2000 : 1900);
 }
 
-uint8_t RealTimeClock::calculateDayOfWeek(int16_t year, uint8_t month, uint8_t day) const
-{
-    static uint8_t t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
-    year -= month < 3;
-    return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
-}
-
 void RealTimeClock::clearOscillatorStopFlag() const
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     statusRegister = BinaryHelper::setBitOff(statusRegister, RTC_REG_STATUS_OSF);
     writeRegister(RTC_ADDR_STATUS, statusRegister);
+}
+
+uint8_t RealTimeClock::calculateDayOfWeek(int16_t year, uint8_t month, uint8_t day)
+{
+    static uint8_t t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    year -= month < 3;
+    return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
 }
 
 uint8_t RealTimeClock::getSecond() const
@@ -144,14 +121,14 @@ uint8_t RealTimeClock::getMonth() const
     return _month;
 }
 
-int16_t RealTimeClock::getYear() const
-{
-    return _year;
-}
-
 uint8_t RealTimeClock::getDayOfWeek() const
 {
     return _dayOfWeek;
+}
+
+int16_t RealTimeClock::getYear() const
+{
+    return _year;
 }
 
 /*************************************************************************************************/
@@ -376,23 +353,4 @@ void RealTimeClock::setCalibration(int8_t value) const
 int8_t RealTimeClock::getCalibration() const
 {
     return readRegister(RTC_ADDR_AGING);
-}
-
-/*************************************************************************************************/
-
-uint8_t RealTimeClock::readRegister(uint8_t address) const
-{
-    Wire.beginTransmission(RTC_ADDR_I2C);
-    Wire.write(address);
-    Wire.endTransmission();
-    Wire.requestFrom(RTC_ADDR_I2C, 1);
-    return (uint8_t)Wire.read();
-}
-
-void RealTimeClock::writeRegister(uint8_t address, uint8_t value) const
-{
-    Wire.beginTransmission(RTC_ADDR_I2C);
-    Wire.write(address);
-    Wire.write(value);
-    Wire.endTransmission();
 }

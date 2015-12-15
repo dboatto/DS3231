@@ -13,34 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "BinaryHelper.h"
+#include "BaseClock.h"
 
-int16_t BinaryHelper::fromDecimalToBcd(int16_t value)
+BaseClock::BaseClock()
 {
-    return (value / 10 * 16) + (value % 10);
+    Wire.begin();
 }
 
-int16_t BinaryHelper::fromBcdToDecimal(int16_t value)
+uint8_t BaseClock::readRegister(uint8_t address)
 {
-    return (value / 16 * 10) + (value % 16);
+    Wire.beginTransmission(RTC_ADDR_I2C);
+    Wire.write(address);
+    Wire.endTransmission();
+    Wire.requestFrom(RTC_ADDR_I2C, 1);
+    return (uint8_t)Wire.read();
 }
 
-uint8_t BinaryHelper::setBitOn(uint8_t value, uint8_t bit)
+void BaseClock::writeRegister(uint8_t address, uint8_t value)
 {
-    return value | ( 1 << bit);
-}
-
-uint8_t BinaryHelper::setBitOff(uint8_t value, uint8_t bit)
-{
-    return value & ~( 1 << bit);
-}
-
-uint8_t BinaryHelper::toggleBit(uint8_t value, uint8_t bit)
-{
-    return value ^ (1 << bit);
-}
-
-bool BinaryHelper::istBitSet(uint8_t value, uint8_t bit)
-{
-    return (value >> bit) & 1;
+    Wire.beginTransmission(RTC_ADDR_I2C);
+    Wire.write(address);
+    Wire.write(value);
+    Wire.endTransmission();
 }
