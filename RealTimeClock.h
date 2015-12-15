@@ -21,14 +21,6 @@
 #include "BinaryHelper.h"
 #include "BaseClock.h"
 
-enum SquareWaveFrequency
-{
-    FREQ_1HZ,
-    FREQ_1024KHZ,
-    FREQ_4096KHZ,
-    FREQ_8192KHZ
-};
-
 class RealTimeClock : public BaseClock
 {
 public:
@@ -36,30 +28,10 @@ public:
     //
     void readDateTime();
     void writeDateTime(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
-    bool wasItStopped() const;
+    static bool wasItStopped();
     //
-    bool forceTemperatureUpdate() const;
-    float getTemperature() const;
-    //
-    void enableBattery() const;
-    void disableBattery() const;
-    bool isBatteryEnabled() const;
-    //
-    void enable32khzOutput() const;
-    void disable32khzOutput() const;
-    bool is32khzOutputEnabled() const;
-    //
-    void enableSquareWave(SquareWaveFrequency frequency) const;
-    void disableSquareWave() const;
-    bool isSquareWaveEnabled() const;
-    SquareWaveFrequency getSquareWaveFrequency() const;
-    //
-    void enableBatteryBackedSquareWave(SquareWaveFrequency frequency) const;
-    void disableBatteryBackedSquareWave() const;
-    bool isBatteryBackedSquareWaveEnabled() const;
-    //
-    void setCalibration(int8_t value) const;
-    int8_t getCalibration() const;
+    static bool forceTemperatureUpdate();
+    static float getTemperature();
     //
     uint8_t getSecond() const;
     uint8_t getMinute() const;
@@ -77,11 +49,7 @@ private:
     uint8_t _month;
     uint8_t _dayOfWeek;
     int16_t _year;
-    void clearOscillatorStopFlag() const;
-    void toggleBattery(bool on) const;
-    void toggle32khzOutput(bool on) const;
-    void toggleSquareWave(bool on, SquareWaveFrequency frequency) const;
-    void toggleBatteryBackedSquareWave(bool on) const;
+    static void clearOscillatorStopFlag();
     static uint8_t calculateDayOfWeek(int16_t year, uint8_t month, uint8_t day);
 };
 

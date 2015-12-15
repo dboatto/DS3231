@@ -21,7 +21,7 @@ RealTimeClock::RealTimeClock()
 
 /*************************************************************************************************/
 
-bool RealTimeClock::wasItStopped() const
+bool RealTimeClock::wasItStopped()
 {
     return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
 }
@@ -82,7 +82,7 @@ void RealTimeClock::readDateTime()
     _year += ((monthAndCentury & 0x80) != 0 ? 2000 : 1900);
 }
 
-void RealTimeClock::clearOscillatorStopFlag() const
+void RealTimeClock::clearOscillatorStopFlag()
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     statusRegister = BinaryHelper::setBitOff(statusRegister, RTC_REG_STATUS_OSF);
@@ -133,7 +133,7 @@ int16_t RealTimeClock::getYear() const
 
 /*************************************************************************************************/
 
-bool RealTimeClock::forceTemperatureUpdate() const
+bool RealTimeClock::forceTemperatureUpdate()
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     if (BinaryHelper::istBitSet(statusRegister, RTC_REG_STATUS_BSY))
@@ -146,7 +146,7 @@ bool RealTimeClock::forceTemperatureUpdate() const
     return true;
 }
 
-float RealTimeClock::getTemperature() const
+float RealTimeClock::getTemperature()
 {
     uint8_t decimalPart, resolution;
     float temperature;
@@ -165,192 +165,4 @@ float RealTimeClock::getTemperature() const
                 : decimalPart;                    //positive number
 
     return temperature + (resolution * 0.25);
-}
-
-/*************************************************************************************************/
-
-bool RealTimeClock::isBatteryEnabled() const
-{
-    return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
-}
-
-void RealTimeClock::enableBattery() const
-{
-    toggleBattery(true);
-}
-
-void RealTimeClock::disableBattery() const
-{
-    toggleBattery(false);
-}
-
-void RealTimeClock::toggleBattery(bool on) const
-{
-    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    if (on)
-    {
-        controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_EOSC);
-    }
-    else
-    {
-        controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_EOSC);
-
-    }
-    writeRegister(RTC_ADDR_CONTROL, controlRegister);
-}
-
-/*************************************************************************************************/
-
-bool RealTimeClock::is32khzOutputEnabled() const
-{
-    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
-}
-
-void RealTimeClock::enable32khzOutput() const
-{
-    toggle32khzOutput(true);
-}
-
-void RealTimeClock::disable32khzOutput() const
-{
-    toggle32khzOutput(false);
-}
-
-void RealTimeClock::toggle32khzOutput(bool on) const
-{
-    uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
-    if (on)
-    {
-        statusRegister = BinaryHelper::setBitOn(statusRegister, RTC_REG_STATUS_EN32KHZ);
-    }
-    else
-    {
-        statusRegister = BinaryHelper::setBitOff(statusRegister, RTC_REG_STATUS_EN32KHZ);
-
-    }
-    writeRegister(RTC_ADDR_STATUS, statusRegister);
-}
-
-/*************************************************************************************************/
-
-bool RealTimeClock::isBatteryBackedSquareWaveEnabled() const
-{
-    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
-}
-
-void RealTimeClock::enableBatteryBackedSquareWave(SquareWaveFrequency frequency) const
-{
-    toggleBatteryBackedSquareWave(true);
-    enableSquareWave(frequency);
-}
-
-void RealTimeClock::disableBatteryBackedSquareWave() const
-{
-    toggleBatteryBackedSquareWave(false);
-}
-
-void RealTimeClock::toggleBatteryBackedSquareWave(bool on) const
-{
-    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    if (on)
-    {
-        controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_BBSQW);
-    }
-    else
-    {
-        controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_BBSQW);
-    }
-    writeRegister(RTC_ADDR_CONTROL, controlRegister);
-}
-
-/*************************************************************************************************/
-
-bool RealTimeClock::isSquareWaveEnabled() const
-{
-    return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
-}
-
-void RealTimeClock::enableSquareWave(SquareWaveFrequency frequency) const
-{
-    toggleSquareWave(true, frequency);
-}
-
-void RealTimeClock::disableSquareWave() const
-{
-    //it will ignore the frequency when disabled
-    toggleSquareWave(false, FREQ_1HZ);
-    disableBatteryBackedSquareWave();
-}
-
-void RealTimeClock::toggleSquareWave(bool on, SquareWaveFrequency frequency) const
-{
-    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-
-    if (on)
-    {
-        switch (frequency)
-        {
-            case FREQ_1HZ:
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
-                break;
-
-            case FREQ_1024KHZ:
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
-                break;
-
-            case FREQ_4096KHZ:
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
-                break;
-
-            case FREQ_8192KHZ:
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
-                break;
-        }
-        controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
-    }
-    else
-    {
-        controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
-    }
-    writeRegister(RTC_ADDR_CONTROL, controlRegister);
-}
-
-SquareWaveFrequency RealTimeClock::getSquareWaveFrequency() const
-{
-    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    bool rs1 = BinaryHelper::istBitSet(controlRegister, RTC_REG_CONTROL_RS1);
-    bool rs2 = BinaryHelper::istBitSet(controlRegister, RTC_REG_CONTROL_RS2);
-
-    if (rs1 == 0 && rs2 == 0)
-    {
-        return FREQ_1HZ;
-    }
-    else if (rs1 == 1 && rs2 == 0)
-    {
-        return FREQ_1024KHZ;
-    }
-    else if (rs1 == 0 && rs2 == 1)
-    {
-        return FREQ_4096KHZ;
-    }
-    else
-    {
-        return FREQ_8192KHZ;
-    }
-}
-
-/*************************************************************************************************/
-
-void RealTimeClock::setCalibration(int8_t value) const
-{
-    writeRegister(RTC_ADDR_AGING, value);
-}
-
-int8_t RealTimeClock::getCalibration() const
-{
-    return readRegister(RTC_ADDR_AGING);
 }
