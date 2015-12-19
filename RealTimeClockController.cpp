@@ -84,7 +84,7 @@ bool RealTimeClockController::isBatteryBackedSquareWaveEnabled()
     return BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
 }
 
-void RealTimeClockController::enableBatteryBackedSquareWave(SquareWaveFrequency frequency)
+void RealTimeClockController::enableBatteryBackedSquareWave(Frequency frequency)
 {
     toggleBatteryBackedSquareWave(true);
     enableSquareWave(frequency);
@@ -116,7 +116,7 @@ bool RealTimeClockController::isSquareWaveEnabled()
     return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
 }
 
-void RealTimeClockController::enableSquareWave(SquareWaveFrequency frequency)
+void RealTimeClockController::enableSquareWave(Frequency frequency)
 {
     toggleSquareWave(true, frequency);
 }
@@ -128,7 +128,7 @@ void RealTimeClockController::disableSquareWave()
     disableBatteryBackedSquareWave();
 }
 
-void RealTimeClockController::toggleSquareWave(bool on, SquareWaveFrequency frequency)
+void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
 
@@ -165,7 +165,7 @@ void RealTimeClockController::toggleSquareWave(bool on, SquareWaveFrequency freq
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
-SquareWaveFrequency RealTimeClockController::getSquareWaveFrequency()
+uint8_t RealTimeClockController::getSquareWaveFrequency()
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     bool rs1 = BinaryHelper::istBitSet(controlRegister, RTC_REG_CONTROL_RS1);

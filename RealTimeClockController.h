@@ -20,16 +20,17 @@
 #include "BaseClock.h"
 #include "BinaryHelper.h"
 
-enum SquareWaveFrequency
-{
-    FREQ_1HZ,
-    FREQ_1024KHZ,
-    FREQ_4096KHZ,
-    FREQ_8192KHZ
-};
-
 class RealTimeClockController : public BaseClock
 {
+public:
+    enum Frequency : uint8_t
+    {
+        FREQ_1HZ,
+        FREQ_1024KHZ,
+        FREQ_4096KHZ,
+        FREQ_8192KHZ
+    };
+
 public:
     static void enableBattery();
     static void disableBattery();
@@ -39,12 +40,12 @@ public:
     static void disable32khzOutput();
     static bool is32khzOutputEnabled();
     //
-    static void enableSquareWave(SquareWaveFrequency frequency);
+    static void enableSquareWave(Frequency frequency);
     static void disableSquareWave();
     static bool isSquareWaveEnabled();
-    static SquareWaveFrequency getSquareWaveFrequency();
+    static uint8_t getSquareWaveFrequency();
     //
-    static void enableBatteryBackedSquareWave(SquareWaveFrequency frequency);
+    static void enableBatteryBackedSquareWave(Frequency frequency);
     static void disableBatteryBackedSquareWave();
     static bool isBatteryBackedSquareWaveEnabled();
     //
@@ -56,7 +57,7 @@ private:
     static void toggleBattery(bool on);
     static void toggle32khzOutput(bool on);
     static void toggleBatteryBackedSquareWave(bool on);
-    static void toggleSquareWave(bool on, SquareWaveFrequency frequency);
+    static void toggleSquareWave(bool on, Frequency frequency);
 };
 
 #endif /* __REALTIMECLOCKCONTROLLER_H__ */
