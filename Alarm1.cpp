@@ -15,10 +15,6 @@
  */
 #include "Alarm1.h"
 
-Alarm1::Alarm1()
-{
-}
-
 void Alarm1::turnOn()
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);

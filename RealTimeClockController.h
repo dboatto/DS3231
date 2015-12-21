@@ -20,15 +20,25 @@
 #include "BaseClock.h"
 #include "BinaryHelper.h"
 
+/**
+ * This class controls advanced features of DS3231.
+ *
+ * This class provides access to all advanced features of DS3231. Most of them can be activated or deactivated.
+ *
+ * @author Daniel Murari Boatto
+ */
 class RealTimeClockController : public BaseClock
 {
 public:
+    /**
+     * Square-Wave Output Frequency
+     */
     enum Frequency : uint8_t
     {
-        FREQ_1HZ,
-        FREQ_1024KHZ,
-        FREQ_4096KHZ,
-        FREQ_8192KHZ
+        FREQ_1HZ,     ///< 1 Hz
+        FREQ_1024KHZ, ///< 1,024 kHz
+        FREQ_4096KHZ, ///< 4,096 kHz
+        FREQ_8192KHZ  ///< 8,192 kHz
     };
 
 public:
@@ -49,11 +59,16 @@ public:
     static void disableBatteryBackedSquareWave();
     static bool isBatteryBackedSquareWaveEnabled();
     //
-    static void setCalibration(int8_t value);
-    static int8_t getCalibration();
+    static void writeCalibration(int8_t value);
+    static int8_t readCalibration();
 
 private:
-	RealTimeClockController();
+    /**
+     * Empty constructor.
+     *
+     * This is a "static" class.
+     */
+    RealTimeClockController();
     static void toggleBattery(bool on);
     static void toggle32khzOutput(bool on);
     static void toggleBatteryBackedSquareWave(bool on);

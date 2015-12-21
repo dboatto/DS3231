@@ -21,17 +21,23 @@
 #include "BinaryHelper.h"
 #include "BaseClock.h"
 
+/**
+ * This class abstracts basic date/time and temperature reading functionalities of DS3231.
+ *
+ * The objective of this class is provide basic date/time and temperature reading methods, while keeping a small
+ * footprint, so it can be used in space constrained microcontrollers, like those ones used by Arduino boards.
+ *
+ * @author Daniel Murari Boatto
+ */
 class RealTimeClock : public BaseClock
 {
 public:
-	RealTimeClock();
-    //
     void readDateTime();
     void writeDateTime(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
     static bool wasItStopped();
     //
     static bool forceTemperatureUpdate();
-    static float getTemperature();
+    static float readTemperature();
     //
     uint8_t getSecond() const;
     uint8_t getMinute() const;

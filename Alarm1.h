@@ -24,7 +24,6 @@
 class Alarm1 : public BaseClock
 {
 public:
-    Alarm1();
     void turnOn();
     void turnOff();
     void readAlarm();

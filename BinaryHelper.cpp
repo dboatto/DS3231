@@ -15,31 +15,84 @@
  */
 #include "BinaryHelper.h"
 
+/**
+ * Converts a base-10 integer to BCD.
+ *
+ * This method converts a base-10 integer to BCD (Binary-Coded Decimal)
+ *
+ * @param value Base-10 integer
+ * @return BCD representation of the value.
+ */
 int16_t BinaryHelper::fromDecimalToBcd(int16_t value)
 {
     return (value / 10 * 16) + (value % 10);
 }
 
+/**
+ * Converts a BCD value to a base-10 integer.
+ *
+ * This method converts a BCD (Binary-Coded Decimal) value to a base-10 integer.
+ *
+ * @param value BCD value
+ * @return Base-10 integer
+ */
 int16_t BinaryHelper::fromBcdToDecimal(int16_t value)
 {
     return (value / 16 * 10) + (value % 16);
 }
 
+/**
+ * Sets a given bit on.
+ *
+ * This method sets one bit, at a given position, to 1 (one).
+ *
+ * @param value Value in which the bit will be set.
+ * @param bit Position of the bit (zero based).
+ * @return Value with the specified bit set on (1).
+ */
 uint8_t BinaryHelper::setBitOn(uint8_t value, uint8_t bit)
 {
     return value | ( 1 << bit);
 }
 
+/**
+ * Sets a given bit off.
+ *
+ * This method sets one bit, at a given position, to 0 (one).
+ *
+ * @param value Value in which the bit will be set.
+ * @param bit Position of the bit (zero based).
+ * @return Value with the specified bit set off (0).
+ */
 uint8_t BinaryHelper::setBitOff(uint8_t value, uint8_t bit)
 {
     return value & ~( 1 << bit);
 }
 
+/**
+ * Toggles a given bit.
+ *
+ * This method toggles one bit at a given position. If the bit is 0 (zero), it will be set to 1 (one). On the other
+ * hand, if the bit is 1 (one), it will be set to 0 (zero).
+ *
+ * @param value Value in which the bit will be set.
+ * @param bit Position of the bit (zero based).
+ * @return Value with the specified bit toggled.
+ */
 uint8_t BinaryHelper::toggleBit(uint8_t value, uint8_t bit)
 {
     return value ^ (1 << bit);
 }
 
+/**
+ * Check if a given bit is set.
+ *
+ * This method checks if a given bit is set, i.e, if it is 1 (one).
+ *
+ * @param value Value to be checked.
+ * @param bit Position of the bit (zero based).
+ * @return true if the bit is set (1), false otherwise.
+ */
 bool BinaryHelper::istBitSet(uint8_t value, uint8_t bit)
 {
     return (value >> bit) & 1;

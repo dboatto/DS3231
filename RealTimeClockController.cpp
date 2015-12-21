@@ -15,21 +15,51 @@
  */
 #include "RealTimeClockController.h"
 
+/**
+ * Checks whether the battery is enabled or not.
+ *
+ * It checks if the battery is enabled when DS3231 switches to the battery, i.e., when the main power supply
+ * is turned off.
+ *
+ * @return true if it is enabled or false, otherwise.
+ */
 bool RealTimeClockController::isBatteryEnabled()
 {
     return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
 }
 
+/**
+ * Enables the battery-backed mode.
+ *
+ * This methods enables the battery when DS3231 switches to the battery, i.e., when the main power supply
+ * is turned off.
+ */
 void RealTimeClockController::enableBattery()
 {
     toggleBattery(true);
 }
 
+/**
+ * Disables the battery-backed mode.
+ *
+ * This methods disables the battery when DS3231 switches to the battery, i.e., when the main power supply
+ * is turned off.
+ *
+ * \b Note: If you disable the battery and the power supply is cut off, the oscillator (clock) will stop. Therefore,
+ * next you start your board, you will need to set the date/time again.
+ */
 void RealTimeClockController::disableBattery()
 {
     toggleBattery(false);
 }
 
+/**
+ * Toggles the battery-backed mode.
+ *
+ * This method toggles the battery-backed mode by changing the EOSC bit of the control register.
+ *
+ * @param on true to enable or false to disable.
+ */
 void RealTimeClockController::toggleBattery(bool on)
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
@@ -45,23 +75,45 @@ void RealTimeClockController::toggleBattery(bool on)
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
-/*************************************************************************************************/
-
+/**
+ * Checks whether the 32 kHz is enabled or not.
+ *
+ * It checks if the 32 kHz output is enabled.
+ *
+ * @return true if it is enabled or false, otherwise.
+ */
 bool RealTimeClockController::is32khzOutputEnabled()
 {
     return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
 }
 
+/**
+ * Enables the 32 KHz output.
+ *
+ * This method enables an output of a 32.768 kHz square-wave signal on the correspondent pin of DS3231.
+ */
 void RealTimeClockController::enable32khzOutput()
 {
     toggle32khzOutput(true);
 }
 
+/**
+ * Disables the 32 KHz output.
+ *
+ * This methods disables the 32 kHz output and the correspondent pin goes to a high-impedance state.
+ */
 void RealTimeClockController::disable32khzOutput()
 {
     toggle32khzOutput(false);
 }
 
+/**
+ * Toggles the 32 KHz output pin.
+ *
+ * This method toggles the 32 KHz output pin by changing the EN32kHz bit of the status register.
+ *
+ * @param on true to enable or false to disable.
+ */
 void RealTimeClockController::toggle32khzOutput(bool on)
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
@@ -77,24 +129,55 @@ void RealTimeClockController::toggle32khzOutput(bool on)
     writeRegister(RTC_ADDR_STATUS, statusRegister);
 }
 
-/*************************************************************************************************/
-
+/**
+ * Checks whether the battery-backed square-wave output is enabled or not.
+ *
+ * It checks if the square-wave output is enabled when DS3231 switches to the battery, i.e., when the main power supply
+ * is turned off.
+ *
+ * @return true if it is enabled or false, otherwise.
+ */
 bool RealTimeClockController::isBatteryBackedSquareWaveEnabled()
 {
     return BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
 }
 
+/**
+ * Enables the battery-backed square-wave output.
+ *
+ * It enables the square-wave output when DS3231 switches to the battery, i.e., when the main power supply is turned
+ * off.
+ *
+ * This method also enables the square-wave output pin.
+ *
+ * @param frequency Frequency of the square-wave.
+ */
 void RealTimeClockController::enableBatteryBackedSquareWave(Frequency frequency)
 {
     toggleBatteryBackedSquareWave(true);
     enableSquareWave(frequency);
 }
 
+/**
+ * Disables the battery-backed square-wave mode.
+ *
+ * It disables the square-wave output when DS3231 switches to the battery, i.e., when the main power supply is turned
+ * off.
+ *
+ * \b Note: This method does \b NOT turn off the square-wave output pin.
+ */
 void RealTimeClockController::disableBatteryBackedSquareWave()
 {
     toggleBatteryBackedSquareWave(false);
 }
 
+/**
+ * Toggles the battery-backed square-wave mode.
+ *
+ * This method toggles the battery-backed square-wave output by changing the BBSQW bit of the control register.
+ *
+ * @param on true to enable or false to disable.
+ */
 void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
@@ -109,18 +192,37 @@ void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
-/*************************************************************************************************/
-
+/**
+ * Checks whether the square-wave mode is enabled or not.
+ *
+ * It checks if the square-wave output is enabled.
+ *
+ * @return true if it is enabled or false, otherwise.
+ */
 bool RealTimeClockController::isSquareWaveEnabled()
 {
     return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
 }
 
+/**
+ * Enables the square-wave output at a given frequency.
+ *
+ * This method enables an output of a square-wave signal, at a given frequency, in the correspondent pin.
+ *
+ * @param frequency Frequency  of the square-wave.
+ */
 void RealTimeClockController::enableSquareWave(Frequency frequency)
 {
     toggleSquareWave(true, frequency);
 }
 
+/**
+ * Disables the square-wave output.
+ *
+ * It disables the square-wave output signal.
+ *
+ * \b Note: This method disables the battery-backed square-wave mode.
+ */
 void RealTimeClockController::disableSquareWave()
 {
     //it will ignore the frequency when disabled
@@ -128,6 +230,14 @@ void RealTimeClockController::disableSquareWave()
     disableBatteryBackedSquareWave();
 }
 
+/**
+ * Toggles the square-wave output pin.
+ *
+ * This method toggles the square-wave output pin by changing the INTCN bit of the control register.
+ *
+ * @param on true to enable or false to disable.
+ * @param frequency Frequency of the square-wave. This parameter will be ignored if the parameter "on" is false.
+ */
 void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
@@ -165,6 +275,13 @@ void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
+/**
+ * Returns the frequency of the square-wave signal.
+ *
+ * This method returns the frequency of the square-wave signal even when the square-wave output is disabled.
+ *
+ * @return Frequency of the square-wave signal.
+ */
 uint8_t RealTimeClockController::getSquareWaveFrequency()
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
@@ -189,14 +306,28 @@ uint8_t RealTimeClockController::getSquareWaveFrequency()
     }
 }
 
-/*************************************************************************************************/
-
-void RealTimeClockController::setCalibration(int8_t value)
+/**
+ * Writes a value in the aging offset register.
+ *
+ * The aging offset register takes a user-provided value to add to or subtract from the codes in the capacitance array
+ * registers. (source: DS3231 datasheet, Maxim Integrated, 2015)
+ *
+ * Positive aging values add capacitance to the array, slowing the oscillator frequency. Negative values remove
+ * capacitance from the array, increasing the oscillator frequency. (source: DS3231 datasheet, Maxim Integrated, 2015)
+ *
+ * Please referrer to the manufacture's datasheet for more information.
+ */
+void RealTimeClockController::writeCalibration(int8_t value)
 {
     writeRegister(RTC_ADDR_AGING, value);
 }
 
-int8_t RealTimeClockController::getCalibration()
+/**
+ * Reads the value in the aging offset register.
+ *
+ * @region user-provided value used to add to or subtract from the codes in the capacitance array registers.
+ */
+int8_t RealTimeClockController::readCalibration()
 {
     return readRegister(RTC_ADDR_AGING);
 }
