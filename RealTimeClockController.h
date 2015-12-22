@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __REALTIMECLOCKCONTROLLER_H__
-#define __REALTIMECLOCKCONTROLLER_H__
+#ifndef __UPSCALE_DS3231_REALTIME_CLOCK_CONTROLLER_H__
+#define __UPSCALE_DS3231_REALTIME_CLOCK_CONTROLLER_H__
 
 #include <stdint.h>
 #include "BaseClock.h"
 #include "BinaryHelper.h"
+
+namespace Upscale { namespace DS3231 {
 
 /**
  * This class controls advanced features of DS3231.
@@ -75,4 +77,5 @@ private:
     static void toggleSquareWave(bool on, Frequency frequency);
 };
 
-#endif /* __REALTIMECLOCKCONTROLLER_H__ */
+}} //end of namespace
+#endif //__UPSCALE_DS3231_REALTIME_CLOCK_CONTROLLER_H__

@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef BINARYHELPER_H_
-#define BINARYHELPER_H_
+#ifndef __UPSCALE_BINARY_HELPER_H__
+#define __UPSCALE_BINARY_HELPER_H__
 
 #include <stdint.h>
+
+namespace Upscale {
 
 /**
  * Utility class to perform bit manipulation.
@@ -46,4 +48,5 @@ private:
     BinaryHelper();
 };
 
-#endif /* BINARYHELPER_H_ */
+} //end of namespace
+#endif //__UPSCALE_BINARY_HELPER_H__

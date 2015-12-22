@@ -15,6 +15,8 @@
  */
 #include "BaseClock.h"
 
+using namespace Upscale::DS3231;
+
 /**
  * Setup I2C communication.
  */

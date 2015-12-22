@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __ALARM1_H__
-#define __ALARM1_H__
+#ifndef __UPSCALE_DS3231_ALARM1_H__
+#define __UPSCALE_DS3231_ALARM1_H__
 
 #include <stdint.h>
 #include <Wire.h>
 #include "BaseClock.h"
 #include "BinaryHelper.h"
+
+namespace Upscale { namespace DS3231 {
 
 class Alarm1 : public BaseClock
 {
@@ -42,4 +44,5 @@ private:
     uint8_t _dayOfWeek;
 };
 
- #endif //__ALARM1_H__
+}} //end of namespace
+#endif //__UPSCALE_DS3231_ALARM1_H__

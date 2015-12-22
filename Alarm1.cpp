@@ -15,6 +15,8 @@
  */
 #include "Alarm1.h"
 
+using namespace Upscale::DS3231;
+
 void Alarm1::turnOn()
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);

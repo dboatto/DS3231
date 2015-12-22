@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __BASECLOCK_H__
-#define __BASECLOCK_H__
+#ifndef __UPSCALE_DS3231_BASE_CLOCK_H__
+#define __UPSCALE_DS3231_BASE_CLOCK_H__
 
 #include <stdint.h>
 #include <Wire.h>
+
+namespace Upscale { namespace DS3231 {
 
 #define RTC_ADDR_I2C         0x68 ///< DS3231 (Slave) Address
 #define RTC_ADDR_DATE        0x00 ///< Date/Time Register Address
@@ -59,4 +61,5 @@ protected:
     static void writeRegister(uint8_t address, uint8_t value);
 };
 
-#endif //__BASECLOCK_H__
+}} //end of namespace
+#endif //__UPSCALE_DS3231_BASE_CLOCK_H__

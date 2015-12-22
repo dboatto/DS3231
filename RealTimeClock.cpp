@@ -15,6 +15,8 @@
  */
 #include "RealTimeClock.h"
 
+using namespace Upscale::DS3231;
+
 /**
  * Check if the clock was stopped.
  *

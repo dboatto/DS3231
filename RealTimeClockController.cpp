@@ -15,6 +15,8 @@
  */
 #include "RealTimeClockController.h"
 
+using namespace Upscale::DS3231;
+
 /**
  * Checks whether the battery is enabled or not.
  *
