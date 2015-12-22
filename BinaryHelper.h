@@ -21,32 +21,22 @@
 namespace Upscale {
 
 /**
- * Utility class to perform bit manipulation.
+ * Bit manipulation functions namespace.
  *
- * Bit manipulation code can easily make the code difficult to read and maintain. Therefore, the purpose of this class
- * is to provide descriptive and easy to use bit handling methods. Although it is not as fast as writing the operations
- * manually whenever necessary, this class dramatically enhances the project readability.
+ * Bit manipulation code can easily make the code difficult to read and maintain. Therefore, the purpose of these
+ * functions is to provide descriptive and easy to use bit handling methods. Although it is not as fast as writing
+ * the operations manually whenever necessary, they dramatically enhances the project readability.
  *
  * @author Daniel Murari Boatto
  */
-class BinaryHelper
-{
-public:
-    static uint8_t setBitOn(uint8_t value, uint8_t bit);
-    static uint8_t setBitOff(uint8_t value, uint8_t bit);
-    static uint8_t toggleBit(uint8_t value, uint8_t bit);
-    static bool istBitSet(uint8_t value, uint8_t bit);
-    static int16_t fromDecimalToBcd(int16_t value);
-    static int16_t fromBcdToDecimal(int16_t value);
-
-private:
-    /**
-     * Empty constructor.
-     *
-     * This is a "static" class.
-     */
-    BinaryHelper();
-};
+namespace BinaryHelper {
+    uint8_t setBitOn(uint8_t value, uint8_t bit);
+    uint8_t setBitOff(uint8_t value, uint8_t bit);
+    uint8_t toggleBit(uint8_t value, uint8_t bit);
+    bool istBitSet(uint8_t value, uint8_t bit);
+    int16_t fromDecimalToBcd(int16_t value);
+    int16_t fromBcdToDecimal(int16_t value);
+}
 
 } //end of namespace
 #endif //__UPSCALE_BINARY_HELPER_H__

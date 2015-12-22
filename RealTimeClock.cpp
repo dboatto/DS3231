@@ -16,6 +16,7 @@
 #include "RealTimeClock.h"
 
 using namespace Upscale::DS3231;
+using namespace Upscale::BinaryHelper;
 
 /**
  * Check if the clock was stopped.
@@ -35,7 +36,7 @@ using namespace Upscale::DS3231;
  */
 bool RealTimeClock::wasItStopped()
 {
-    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
+    return istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
 }
 
 /**
@@ -79,13 +80,13 @@ void RealTimeClock::writeDateTime(int16_t year, uint8_t month, uint8_t day, uint
 
     Wire.beginTransmission(RTC_ADDR_I2C);
     Wire.write(RTC_ADDR_DATE);
-    Wire.write(BinaryHelper::fromDecimalToBcd(second));
-    Wire.write(BinaryHelper::fromDecimalToBcd(minute));
-    Wire.write(BinaryHelper::fromDecimalToBcd(hour));
-    Wire.write(BinaryHelper::fromDecimalToBcd(_dayOfWeek));
-    Wire.write(BinaryHelper::fromDecimalToBcd(day));
-    Wire.write(BinaryHelper::fromDecimalToBcd(month) | century);
-    Wire.write(BinaryHelper::fromDecimalToBcd(year));
+    Wire.write(fromDecimalToBcd(second));
+    Wire.write(fromDecimalToBcd(minute));
+    Wire.write(fromDecimalToBcd(hour));
+    Wire.write(fromDecimalToBcd(_dayOfWeek));
+    Wire.write(fromDecimalToBcd(day));
+    Wire.write(fromDecimalToBcd(month) | century);
+    Wire.write(fromDecimalToBcd(year));
     Wire.endTransmission();
 
     clearOscillatorStopFlag();
@@ -108,16 +109,16 @@ void RealTimeClock::readDateTime()
     Wire.endTransmission();
 
     Wire.requestFrom(RTC_ADDR_I2C, 7);
-    _second    = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _minute    = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _hour      = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _dayOfWeek = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _day       = BinaryHelper::fromBcdToDecimal(Wire.read());
+    _second    = fromBcdToDecimal(Wire.read());
+    _minute    = fromBcdToDecimal(Wire.read());
+    _hour      = fromBcdToDecimal(Wire.read());
+    _dayOfWeek = fromBcdToDecimal(Wire.read());
+    _day       = fromBcdToDecimal(Wire.read());
 
     uint8_t monthAndCentury = Wire.read();
 
-    _month = BinaryHelper::fromBcdToDecimal(monthAndCentury & 0x1F);
-    _year  = BinaryHelper::fromBcdToDecimal(Wire.read());
+    _month = fromBcdToDecimal(monthAndCentury & 0x1F);
+    _year  = fromBcdToDecimal(Wire.read());
     _year += ((monthAndCentury & 0x80) != 0 ? 2000 : 1900);
 }
 
@@ -137,7 +138,7 @@ void RealTimeClock::readDateTime()
 void RealTimeClock::clearOscillatorStopFlag()
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
-    statusRegister = BinaryHelper::setBitOff(statusRegister, RTC_REG_STATUS_OSF);
+    statusRegister = setBitOff(statusRegister, RTC_REG_STATUS_OSF);
     writeRegister(RTC_ADDR_STATUS, statusRegister);
 }
 
@@ -261,12 +262,12 @@ int16_t RealTimeClock::getYear() const
 bool RealTimeClock::forceTemperatureUpdate()
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
-    if (BinaryHelper::istBitSet(statusRegister, RTC_REG_STATUS_BSY))
+    if (istBitSet(statusRegister, RTC_REG_STATUS_BSY))
     {
         return false;
     }
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_CONV);
+    controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_CONV);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
     return true;
 }

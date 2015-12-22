@@ -16,6 +16,7 @@
 #include "RealTimeClockController.h"
 
 using namespace Upscale::DS3231;
+using namespace Upscale::BinaryHelper;
 
 /**
  * Checks whether the battery is enabled or not.
@@ -27,7 +28,7 @@ using namespace Upscale::DS3231;
  */
 bool RealTimeClockController::isBatteryEnabled()
 {
-    return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
+    return !istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
 }
 
 /**
@@ -67,11 +68,11 @@ void RealTimeClockController::toggleBattery(bool on)
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     if (on)
     {
-        controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_EOSC);
+        controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_EOSC);
     }
     else
     {
-        controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_EOSC);
+        controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_EOSC);
 
     }
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
@@ -86,7 +87,7 @@ void RealTimeClockController::toggleBattery(bool on)
  */
 bool RealTimeClockController::is32khzOutputEnabled()
 {
-    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
+    return istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
 }
 
 /**
@@ -121,11 +122,11 @@ void RealTimeClockController::toggle32khzOutput(bool on)
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     if (on)
     {
-        statusRegister = BinaryHelper::setBitOn(statusRegister, RTC_REG_STATUS_EN32KHZ);
+        statusRegister = setBitOn(statusRegister, RTC_REG_STATUS_EN32KHZ);
     }
     else
     {
-        statusRegister = BinaryHelper::setBitOff(statusRegister, RTC_REG_STATUS_EN32KHZ);
+        statusRegister = setBitOff(statusRegister, RTC_REG_STATUS_EN32KHZ);
 
     }
     writeRegister(RTC_ADDR_STATUS, statusRegister);
@@ -141,7 +142,7 @@ void RealTimeClockController::toggle32khzOutput(bool on)
  */
 bool RealTimeClockController::isBatteryBackedSquareWaveEnabled()
 {
-    return BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
+    return istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
 }
 
 /**
@@ -185,11 +186,11 @@ void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     if (on)
     {
-        controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_BBSQW);
+        controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_BBSQW);
     }
     else
     {
-        controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_BBSQW);
+        controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_BBSQW);
     }
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
@@ -203,7 +204,7 @@ void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
  */
 bool RealTimeClockController::isSquareWaveEnabled()
 {
-    return !BinaryHelper::istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
+    return !istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
 }
 
 /**
@@ -249,30 +250,30 @@ void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
         switch (frequency)
         {
             case FREQ_1HZ:
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
+                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
+                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
 
             case FREQ_1024KHZ:
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
+                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS1);
+                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
 
             case FREQ_4096KHZ:
-                controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
+                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
+                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
 
             case FREQ_8192KHZ:
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
-                controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
+                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
+                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
         }
-        controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
+        controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
     }
     else
     {
-        controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
+        controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
     }
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
@@ -287,8 +288,8 @@ void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
 uint8_t RealTimeClockController::getSquareWaveFrequency()
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    bool rs1 = BinaryHelper::istBitSet(controlRegister, RTC_REG_CONTROL_RS1);
-    bool rs2 = BinaryHelper::istBitSet(controlRegister, RTC_REG_CONTROL_RS2);
+    bool rs1 = istBitSet(controlRegister, RTC_REG_CONTROL_RS1);
+    bool rs2 = istBitSet(controlRegister, RTC_REG_CONTROL_RS2);
 
     if (rs1 == 0 && rs2 == 0)
     {
