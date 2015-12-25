@@ -138,7 +138,7 @@ void RealTimeClock::readDateTime()
 void RealTimeClock::clearOscillatorStopFlag()
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
-    statusRegister = setBitOff(statusRegister, RTC_REG_STATUS_OSF);
+    setBitOff(statusRegister, RTC_REG_STATUS_OSF);
     writeRegister(RTC_ADDR_STATUS, statusRegister);
 }
 
@@ -267,7 +267,7 @@ bool RealTimeClock::forceTemperatureUpdate()
         return false;
     }
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_CONV);
+    setBitOn(controlRegister, RTC_REG_CONTROL_CONV);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
     return true;
 }

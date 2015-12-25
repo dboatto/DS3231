@@ -30,9 +30,9 @@ namespace Upscale {
  * @author Daniel Murari Boatto
  */
 namespace BinaryHelper {
-    uint8_t setBitOn(uint8_t value, uint8_t bit);
-    uint8_t setBitOff(uint8_t value, uint8_t bit);
-    uint8_t toggleBit(uint8_t value, uint8_t bit);
+    void setBitOn(uint8_t& value, uint8_t bit);
+    void setBitOff(uint8_t& value, uint8_t bit);
+    void toggleBit(uint8_t& value, uint8_t bit);
     bool istBitSet(uint8_t value, uint8_t bit);
     int16_t fromDecimalToBcd(int16_t value);
     int16_t fromBcdToDecimal(int16_t value);

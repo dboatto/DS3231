@@ -16,19 +16,20 @@
 #include "Alarm1.h"
 
 using namespace Upscale::DS3231;
+using namespace Upscale::BinaryHelper;
 
-void Alarm1::turnOn()
+void Alarm1::turnOn() const
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
-    controlRegister = BinaryHelper::setBitOn(controlRegister, RTC_REG_CONTROL_A1IE);
+    setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
+    setBitOn(controlRegister, RTC_REG_CONTROL_A1IE);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
-void Alarm1::turnOff()
+void Alarm1::turnOff() const
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    controlRegister = BinaryHelper::setBitOff(controlRegister, RTC_REG_CONTROL_A1IE);
+    setBitOff(controlRegister, RTC_REG_CONTROL_A1IE);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
 
@@ -38,29 +39,181 @@ void Alarm1::readAlarm()
     Wire.write(RTC_ADDR_ALARM1);
     Wire.endTransmission();
 
-    Wire.requestFrom(RTC_ADDR_I2C, 7);
-    _second    = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _minute    = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _hour      = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _dayOfWeek = BinaryHelper::fromBcdToDecimal(Wire.read());
-    _day       = BinaryHelper::fromBcdToDecimal(Wire.read());
+    //Gets raw data
+    Wire.requestFrom(RTC_ADDR_I2C, 4);
+    _second    = Wire.read();
+    _minute    = Wire.read();
+    _hour      = Wire.read();
+    _day       = Wire.read();
+
+    //Gets the flags used to determine the alarm rate
+    bool a1m1        = istBitSet(_second, RTC_ALARM1_A1M1);
+    bool a1m2        = istBitSet(_minute, RTC_ALARM1_A1M2);
+    bool a1m3        = istBitSet(_hour  , RTC_ALARM1_A1M3);
+    bool a1m4        = istBitSet(_day   , RTC_ALARM1_A1M4);
+    bool isDayOfWeek = istBitSet(_day   , RTC_ALARM1_DYDT);
+
+    //It figures out the alarm rate
+    if (a1m1 && a1m2 && a1m3 && a1m4)
+    {
+        _alarmRate = ONCE_PER_SECOND;
+    }
+    else if (!a1m1 && a1m2 && a1m3 && a1m4)
+    {
+        _alarmRate = WHEN_SECONDS_MATCH;
+    }
+    else if (!a1m1 && !a1m2 && a1m3 && a1m4)
+    {
+        _alarmRate = WHEN_SECONDS_AND_MINUTES_MATCH;
+    }
+    else if (!a1m1 && !a1m2 && !a1m3 && a1m4)
+    {
+        _alarmRate = WHEN_SECONDS_AND_MINUTES_AND_HOURS_MATCH;
+    }
+    else if (!a1m1 && !a1m2 && !a1m3 && !a1m4 && !isDayOfWeek)
+    {
+        _alarmRate = WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_MATCH;
+    }
+    else if (!a1m1 && !a1m2 && !a1m3 && !a1m4 && isDayOfWeek)
+    {
+        _alarmRate = WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_OF_WEEK_MATCH;
+    }
+
+    //Turns off the flags before getting the values in a base-10 representation
+    setBitOff(_second, RTC_ALARM1_A1M1);
+    setBitOff(_minute, RTC_ALARM1_A1M2);
+    setBitOff(_hour  , RTC_ALARM1_A1M3);
+    setBitOff(_day   , RTC_ALARM1_A1M4);
+    setBitOff(_day   , RTC_ALARM1_DYDT);
+
+    //Gets the actual values
+    _second = fromBcdToDecimal(_second);
+    _minute = fromBcdToDecimal(_minute);
+    _hour   = fromBcdToDecimal(_hour);
+    _day    = fromBcdToDecimal(_day);
+
+    /* This device uses the same place to store the the day of the month and the
+     * day of the week. Therefore, we need to figure out what the value in _day is.
+     */
+    if (isDayOfWeek)
+    {
+        _dayOfWeek = _day;
+        _day = 0;
+    }
+    else
+    {
+        _dayOfWeek = 0;
+    }
 }
 
-void Alarm1::writeAlarm(uint8_t dayOfWeek, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
+void Alarm1::writeAlarmOncePerSecond()
+{
+    _second    = 0;
+    _minute    = 0;
+    _hour      = 0;
+    _day       = 0;
+    _dayOfWeek = 0;
+    _alarmRate = ONCE_PER_SECOND;
+
+    Wire.beginTransmission(RTC_ADDR_I2C);
+    Wire.write(RTC_ADDR_ALARM1);
+    Wire.write(0x80); //A1M1
+    Wire.write(0x80); //A1M2
+    Wire.write(0x80); //A1M3
+    Wire.write(0x80); //A1M4
+    Wire.endTransmission();
+}
+
+void Alarm1::writeAlarm(uint8_t second)
+{
+    _second    = second;
+    _minute    = 0;
+    _hour      = 0;
+    _day       = 0;
+    _dayOfWeek = 0;
+    _alarmRate = WHEN_SECONDS_MATCH;
+
+    second = fromDecimalToBcd(second);
+
+    Wire.beginTransmission(RTC_ADDR_I2C);
+    Wire.write(RTC_ADDR_ALARM1);
+    Wire.write(second);  //A1M1
+    Wire.write(0x80);    //A1M2
+    Wire.write(0x80);    //A1M3
+    Wire.write(0x80);    //A1M4
+    Wire.endTransmission();
+}
+
+void Alarm1::writeAlarm(uint8_t second, uint8_t minute)
+{
+    _second    = second;
+    _minute    = minute;
+    _hour      = 0;
+    _day       = 0;
+    _dayOfWeek = 0;
+    _alarmRate = WHEN_SECONDS_AND_MINUTES_MATCH;
+
+    second = fromDecimalToBcd(second);
+    minute = fromDecimalToBcd(minute);
+
+    Wire.beginTransmission(RTC_ADDR_I2C);
+    Wire.write(RTC_ADDR_ALARM1);
+    Wire.write(second);  //A1M1
+    Wire.write(minute);  //A1M2
+    Wire.write(0x80);    //A1M3
+    Wire.write(0x80);    //A1M4
+    Wire.endTransmission();
+}
+
+void Alarm1::writeAlarm(uint8_t second, uint8_t minute, uint8_t hour)
 {
     _second    = second;
     _minute    = minute;
     _hour      = hour;
-    _day       = day;
-    _dayOfWeek = dayOfWeek;
+    _day       = 0;
+    _dayOfWeek = 0;
+    _alarmRate = WHEN_SECONDS_AND_MINUTES_AND_HOURS_MATCH;
+
+    second = fromDecimalToBcd(second);
+    minute = fromDecimalToBcd(minute);
+    hour   = fromDecimalToBcd(hour);
 
     Wire.beginTransmission(RTC_ADDR_I2C);
     Wire.write(RTC_ADDR_ALARM1);
-    Wire.write(BinaryHelper::fromDecimalToBcd(second));
-    Wire.write(BinaryHelper::fromDecimalToBcd(minute));
-    Wire.write(BinaryHelper::fromDecimalToBcd(hour));
-    Wire.write(BinaryHelper::fromDecimalToBcd(dayOfWeek));
-    Wire.write(BinaryHelper::fromDecimalToBcd(day));
+    Wire.write(second);  //A1M1
+    Wire.write(minute);  //A1M2
+    Wire.write(hour);    //A1M3
+    Wire.write(0x80);    //A1M4
+    Wire.endTransmission();
+}
+
+void Alarm1::writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t second, uint8_t minute, uint8_t hour)
+{
+    _second    = second;
+    _minute    = minute;
+    _hour      = hour;
+    _day       = useDayOfWeek ? 0            : day;
+    _dayOfWeek = useDayOfWeek ? useDayOfWeek : 0 ;
+    _alarmRate = useDayOfWeek
+               ? WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_OF_WEEK_MATCH
+               : WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_MATCH;
+
+    second = fromDecimalToBcd(second);
+    minute = fromDecimalToBcd(minute);
+    hour   = fromDecimalToBcd(hour);
+    day    = fromDecimalToBcd(day);
+
+    if (useDayOfWeek)
+    {
+        setBitOn(day, RTC_ALARM1_DYDT);
+    }
+
+    Wire.beginTransmission(RTC_ADDR_I2C);
+    Wire.write(RTC_ADDR_ALARM1);
+    Wire.write(second);  //A1M1
+    Wire.write(minute);  //A1M2
+    Wire.write(hour);    //A1M3
+    Wire.write(day);     //A1M4
     Wire.endTransmission();
 }
 
@@ -87,4 +240,9 @@ uint8_t Alarm1::getDay() const
 uint8_t Alarm1::getDayOfWeek() const
 {
     return _dayOfWeek;
+}
+
+uint8_t Alarm1::getAlarmRate() const
+{
+    return _alarmRate;
 }

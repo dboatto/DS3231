@@ -68,12 +68,11 @@ void RealTimeClockController::toggleBattery(bool on)
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     if (on)
     {
-        controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_EOSC);
+        setBitOff(controlRegister, RTC_REG_CONTROL_EOSC);
     }
     else
     {
-        controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_EOSC);
-
+        setBitOn(controlRegister, RTC_REG_CONTROL_EOSC);
     }
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
@@ -122,11 +121,11 @@ void RealTimeClockController::toggle32khzOutput(bool on)
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     if (on)
     {
-        statusRegister = setBitOn(statusRegister, RTC_REG_STATUS_EN32KHZ);
+        setBitOn(statusRegister, RTC_REG_STATUS_EN32KHZ);
     }
     else
     {
-        statusRegister = setBitOff(statusRegister, RTC_REG_STATUS_EN32KHZ);
+        setBitOff(statusRegister, RTC_REG_STATUS_EN32KHZ);
 
     }
     writeRegister(RTC_ADDR_STATUS, statusRegister);
@@ -186,11 +185,11 @@ void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     if (on)
     {
-        controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_BBSQW);
+        setBitOn(controlRegister, RTC_REG_CONTROL_BBSQW);
     }
     else
     {
-        controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_BBSQW);
+        setBitOff(controlRegister, RTC_REG_CONTROL_BBSQW);
     }
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
@@ -250,30 +249,30 @@ void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
         switch (frequency)
         {
             case FREQ_1HZ:
-                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
+                setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
+                setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
 
             case FREQ_1024KHZ:
-                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
+                setBitOn(controlRegister, RTC_REG_CONTROL_RS1);
+                setBitOff(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
 
             case FREQ_4096KHZ:
-                controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
-                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
+                setBitOff(controlRegister, RTC_REG_CONTROL_RS1);
+                setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
 
             case FREQ_8192KHZ:
-                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
-                controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
+                setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
+                setBitOn(controlRegister, RTC_REG_CONTROL_RS2);
                 break;
         }
-        controlRegister = setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
+        setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
     }
     else
     {
-        controlRegister = setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
+        setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
     }
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }

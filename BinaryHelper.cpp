@@ -50,11 +50,10 @@ int16_t BinaryHelper::fromBcdToDecimal(int16_t value)
  *
  * @param value Value in which the bit will be set.
  * @param bit Position of the bit (zero based).
- * @return Value with the specified bit set on (1).
  */
-uint8_t BinaryHelper::setBitOn(uint8_t value, uint8_t bit)
+void BinaryHelper::setBitOn(uint8_t& value, uint8_t bit)
 {
-    return value | ( 1 << bit);
+    value |= ( 1 << bit);
 }
 
 /**
@@ -64,26 +63,24 @@ uint8_t BinaryHelper::setBitOn(uint8_t value, uint8_t bit)
  *
  * @param value Value in which the bit will be set.
  * @param bit Position of the bit (zero based).
- * @return Value with the specified bit set off (0).
  */
-uint8_t BinaryHelper::setBitOff(uint8_t value, uint8_t bit)
+void BinaryHelper::setBitOff(uint8_t& value, uint8_t bit)
 {
-    return value & ~( 1 << bit);
+    value &= ~( 1 << bit);
 }
 
 /**
- * Toggles a given bit.
+ * Toggles a bit in a given position.
  *
  * This method toggles one bit at a given position. If the bit is 0 (zero), it will be set to 1 (one). On the other
  * hand, if the bit is 1 (one), it will be set to 0 (zero).
  *
  * @param value Value in which the bit will be set.
  * @param bit Position of the bit (zero based).
- * @return Value with the specified bit toggled.
  */
-uint8_t BinaryHelper::toggleBit(uint8_t value, uint8_t bit)
+void BinaryHelper::toggleBit(uint8_t& value, uint8_t bit)
 {
-    return value ^ (1 << bit);
+    value ^= (1 << bit);
 }
 
 /**
