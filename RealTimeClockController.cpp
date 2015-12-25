@@ -28,7 +28,7 @@ using namespace Upscale::BinaryHelper;
  */
 bool RealTimeClockController::isBatteryEnabled()
 {
-    return !istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
+    return !isBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_EOSC);
 }
 
 /**
@@ -86,7 +86,7 @@ void RealTimeClockController::toggleBattery(bool on)
  */
 bool RealTimeClockController::is32khzOutputEnabled()
 {
-    return istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
+    return isBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_EN32KHZ);
 }
 
 /**
@@ -141,7 +141,7 @@ void RealTimeClockController::toggle32khzOutput(bool on)
  */
 bool RealTimeClockController::isBatteryBackedSquareWaveEnabled()
 {
-    return istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
+    return isBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_BBSQW);
 }
 
 /**
@@ -203,7 +203,7 @@ void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
  */
 bool RealTimeClockController::isSquareWaveEnabled()
 {
-    return !istBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
+    return !isBitSet(readRegister(RTC_ADDR_CONTROL), RTC_REG_CONTROL_INTCN);
 }
 
 /**
@@ -287,8 +287,8 @@ void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
 uint8_t RealTimeClockController::getSquareWaveFrequency()
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    bool rs1 = istBitSet(controlRegister, RTC_REG_CONTROL_RS1);
-    bool rs2 = istBitSet(controlRegister, RTC_REG_CONTROL_RS2);
+    bool rs1 = isBitSet(controlRegister, RTC_REG_CONTROL_RS1);
+    bool rs2 = isBitSet(controlRegister, RTC_REG_CONTROL_RS2);
 
     if (rs1 == 0 && rs2 == 0)
     {

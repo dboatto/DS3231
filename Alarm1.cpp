@@ -18,6 +18,18 @@
 using namespace Upscale::DS3231;
 using namespace Upscale::BinaryHelper;
 
+bool Alarm1::isOn() const
+{
+    Wire.beginTransmission(RTC_ADDR_I2C);
+    Wire.write(RTC_ADDR_CONTROL);
+    Wire.endTransmission();
+
+    Wire.requestFrom(RTC_ADDR_I2C, 1);
+    uint8_t controlRegister = Wire.read();
+
+    return isBitSet(controlRegister, RTC_REG_CONTROL_A1IE) && isBitSet(controlRegister, RTC_REG_CONTROL_INTCN);
+}
+
 void Alarm1::turnOn() const
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
@@ -29,8 +41,24 @@ void Alarm1::turnOn() const
 void Alarm1::turnOff() const
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
+    setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
     setBitOff(controlRegister, RTC_REG_CONTROL_A1IE);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
+}
+
+bool Alarm1::wasItTriggered() const
+{
+    uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
+    bool triggered = isBitSet(statusRegister, RTC_REG_STATUS_A1F);
+
+    //If it was triggered, it is necessary to reset it
+    if (triggered)
+    {
+        setBitOff(statusRegister, RTC_REG_STATUS_A1F);
+        writeRegister(RTC_ADDR_STATUS, statusRegister);
+    }
+
+    return triggered;
 }
 
 void Alarm1::readAlarm()
@@ -47,11 +75,11 @@ void Alarm1::readAlarm()
     _day       = Wire.read();
 
     //Gets the flags used to determine the alarm rate
-    bool a1m1        = istBitSet(_second, RTC_ALARM1_A1M1);
-    bool a1m2        = istBitSet(_minute, RTC_ALARM1_A1M2);
-    bool a1m3        = istBitSet(_hour  , RTC_ALARM1_A1M3);
-    bool a1m4        = istBitSet(_day   , RTC_ALARM1_A1M4);
-    bool isDayOfWeek = istBitSet(_day   , RTC_ALARM1_DYDT);
+    bool a1m1        = isBitSet(_second, RTC_ALARM1_A1M1);
+    bool a1m2        = isBitSet(_minute, RTC_ALARM1_A1M2);
+    bool a1m3        = isBitSet(_hour  , RTC_ALARM1_A1M3);
+    bool a1m4        = isBitSet(_day   , RTC_ALARM1_A1M4);
+    bool isDayOfWeek = isBitSet(_day   , RTC_ALARM1_DYDT);
 
     //It figures out the alarm rate
     if (a1m1 && a1m2 && a1m3 && a1m4)
@@ -144,7 +172,7 @@ void Alarm1::writeAlarm(uint8_t second)
     Wire.endTransmission();
 }
 
-void Alarm1::writeAlarm(uint8_t second, uint8_t minute)
+void Alarm1::writeAlarm(uint8_t minute, uint8_t second)
 {
     _second    = second;
     _minute    = minute;
@@ -165,7 +193,7 @@ void Alarm1::writeAlarm(uint8_t second, uint8_t minute)
     Wire.endTransmission();
 }
 
-void Alarm1::writeAlarm(uint8_t second, uint8_t minute, uint8_t hour)
+void Alarm1::writeAlarm(uint8_t hour, uint8_t minute, uint8_t second)
 {
     _second    = second;
     _minute    = minute;
@@ -187,7 +215,7 @@ void Alarm1::writeAlarm(uint8_t second, uint8_t minute, uint8_t hour)
     Wire.endTransmission();
 }
 
-void Alarm1::writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t second, uint8_t minute, uint8_t hour)
+void Alarm1::writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
 {
     _second    = second;
     _minute    = minute;

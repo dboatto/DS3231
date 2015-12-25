@@ -33,7 +33,7 @@ namespace BinaryHelper {
     void setBitOn(uint8_t& value, uint8_t bit);
     void setBitOff(uint8_t& value, uint8_t bit);
     void toggleBit(uint8_t& value, uint8_t bit);
-    bool istBitSet(uint8_t value, uint8_t bit);
+    bool isBitSet(uint8_t value, uint8_t bit);
     int16_t fromDecimalToBcd(int16_t value);
     int16_t fromBcdToDecimal(int16_t value);
 }

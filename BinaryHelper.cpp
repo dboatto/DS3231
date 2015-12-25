@@ -92,7 +92,7 @@ void BinaryHelper::toggleBit(uint8_t& value, uint8_t bit)
  * @param bit Position of the bit (zero based).
  * @return true if the bit is set (1), false otherwise.
  */
-bool BinaryHelper::istBitSet(uint8_t value, uint8_t bit)
+bool BinaryHelper::isBitSet(uint8_t value, uint8_t bit)
 {
     return (value >> bit) & 1;
 }

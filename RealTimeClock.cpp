@@ -36,7 +36,7 @@ using namespace Upscale::BinaryHelper;
  */
 bool RealTimeClock::wasItStopped()
 {
-    return istBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
+    return isBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
 }
 
 /**
@@ -262,7 +262,7 @@ int16_t RealTimeClock::getYear() const
 bool RealTimeClock::forceTemperatureUpdate()
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
-    if (istBitSet(statusRegister, RTC_REG_STATUS_BSY))
+    if (isBitSet(statusRegister, RTC_REG_STATUS_BSY))
     {
         return false;
     }

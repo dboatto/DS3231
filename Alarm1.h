@@ -43,14 +43,16 @@ public:
     };
 
 public:
+    bool isOn() const;
     void turnOn() const;
     void turnOff() const;
+    bool wasItTriggered() const;
     void readAlarm();
     void writeAlarmOncePerSecond();
     void writeAlarm(uint8_t second);
-    void writeAlarm(uint8_t second, uint8_t minute);
-    void writeAlarm(uint8_t second, uint8_t minute, uint8_t hour);
-    void writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t second, uint8_t minute, uint8_t hour);
+    void writeAlarm(uint8_t minute, uint8_t second);
+    void writeAlarm(uint8_t hour, uint8_t minute, uint8_t second);
+    void writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
     uint8_t getSecond() const;
     uint8_t getMinute() const;
     uint8_t getHour() const;
