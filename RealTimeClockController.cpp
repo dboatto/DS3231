@@ -284,7 +284,7 @@ void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
  *
  * @return Frequency of the square-wave signal.
  */
-uint8_t RealTimeClockController::getSquareWaveFrequency()
+RealTimeClockController::Frequency RealTimeClockController::getSquareWaveFrequency()
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
     bool rs1 = isBitSet(controlRegister, RTC_REG_CONTROL_RS1);

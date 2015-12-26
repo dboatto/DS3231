@@ -44,7 +44,7 @@ public:
 
 public:
     bool isOn() const;
-    void turnOn() const;
+    void turnOn(bool enableInterruption) const;
     void turnOff() const;
     bool wasItTriggered() const;
     void readAlarm();
@@ -58,7 +58,7 @@ public:
     uint8_t getHour() const;
     uint8_t getDay() const;
     uint8_t getDayOfWeek() const;
-    uint8_t getAlarmRate() const;
+    AlarmRate getAlarmRate() const;
 
 private:
     uint8_t _second;

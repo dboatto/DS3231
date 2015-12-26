@@ -157,9 +157,9 @@ void RealTimeClock::clearOscillatorStopFlag()
  */
 uint8_t RealTimeClock::calculateDayOfWeek(int16_t year, uint8_t month, uint8_t day)
 {
-    static uint8_t t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    static const uint8_t monthsArray[] PROGMEM = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
     year -= month < 3;
-    return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
+    return (year + year/4 - year/100 + year/400 + monthsArray[month-1] + day) % 7;
 }
 
 /**

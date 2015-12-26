@@ -55,7 +55,7 @@ public:
     static void enableSquareWave(Frequency frequency);
     static void disableSquareWave();
     static bool isSquareWaveEnabled();
-    static uint8_t getSquareWaveFrequency();
+    static Frequency getSquareWaveFrequency();
     //
     static void enableBatteryBackedSquareWave(Frequency frequency);
     static void disableBatteryBackedSquareWave();

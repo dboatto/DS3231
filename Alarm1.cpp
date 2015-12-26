@@ -30,10 +30,13 @@ bool Alarm1::isOn() const
     return isBitSet(controlRegister, RTC_REG_CONTROL_A1IE) && isBitSet(controlRegister, RTC_REG_CONTROL_INTCN);
 }
 
-void Alarm1::turnOn() const
+void Alarm1::turnOn(bool enableInterruption) const
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
+    if (enableInterruption)
+    {
+        setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
+    }
     setBitOn(controlRegister, RTC_REG_CONTROL_A1IE);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
@@ -41,7 +44,6 @@ void Alarm1::turnOn() const
 void Alarm1::turnOff() const
 {
     uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    setBitOff(controlRegister, RTC_REG_CONTROL_INTCN);
     setBitOff(controlRegister, RTC_REG_CONTROL_A1IE);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
 }
@@ -270,7 +272,7 @@ uint8_t Alarm1::getDayOfWeek() const
     return _dayOfWeek;
 }
 
-uint8_t Alarm1::getAlarmRate() const
+Alarm1::AlarmRate Alarm1::getAlarmRate() const
 {
     return _alarmRate;
 }
