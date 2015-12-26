@@ -23,12 +23,19 @@
 
 namespace Ampliar { namespace DS3231 {
 
+/**
+ * Base class for Alarm1 and Alarm2.
+ *
+ * This class provide common methods used by the two alarms available on DS3231.
+ *
+ * @author Daniel Murari Boatto
+ */
 class BaseAlarm : public BaseClock
 {
 public:
     bool isOn() const;
     void turnOn(bool enableInterruption) const;
-    void turnOff() const;
+    void turnOff(bool disableInterruption) const;
     bool wasItTriggered() const;
     virtual void readAlarm() = 0;
 
@@ -37,7 +44,14 @@ protected:
     virtual ~BaseAlarm();
 
 private:
+    /**
+     * Bit in the control register used to activate the alarm.
+     */
     uint8_t _alarmControlBit;
+
+    /**
+     * Bit in the status register used to figure out whether the alarm was triggered or not.
+     */
     uint8_t _alarmStatusBit;
 };
 

@@ -327,7 +327,7 @@ void RealTimeClockController::writeCalibration(int8_t value)
 /**
  * Reads the value in the aging offset register.
  *
- * @region user-provided value used to add to or subtract from the codes in the capacitance array registers.
+ * @return user-provided value used to add to or subtract from the codes in the capacitance array registers.
  */
 int8_t RealTimeClockController::readCalibration()
 {
