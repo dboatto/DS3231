@@ -30,11 +30,19 @@ namespace Ampliar { namespace DS3231 {
 #define RTC_ALARM1_A1M4 7 ///< Alarm 1 A1M4
 #define RTC_ALARM1_DYDT 6 ///< Alarm 1 DY/DT
 
+/**
+ * Abstraction of the first alarm of DS3231.
+ *
+ * This class provides access to all functionalities of DS3231's first alarm.
+ *
+ * @author Daniel Murari Boatto
+ */
 class Alarm1 : public BaseAlarm
 {
 public:
     enum AlarmRate : uint8_t
     {
+        ALARM1_UNDEFINED,
         ONCE_PER_SECOND,
         WHEN_SECONDS_MATCH,
         WHEN_SECONDS_AND_MINUTES_MATCH,
