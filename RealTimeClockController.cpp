@@ -15,8 +15,8 @@
  */
 #include "RealTimeClockController.h"
 
-using namespace Upscale::DS3231;
-using namespace Upscale::BinaryHelper;
+using namespace Ampliar::DS3231;
+using namespace Ampliar::BinaryHelper;
 
 /**
  * Checks whether the battery is enabled or not.

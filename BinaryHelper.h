@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __UPSCALE_BINARY_HELPER_H__
-#define __UPSCALE_BINARY_HELPER_H__
+#ifndef __AMPLIAR_BINARY_HELPER_H__
+#define __AMPLIAR_BINARY_HELPER_H__
 
 #include <stdint.h>
 
-namespace Upscale {
+namespace Ampliar {
 
 /**
  * Bit manipulation functions namespace.
@@ -39,4 +39,4 @@ namespace BinaryHelper {
 }
 
 } //end of namespace
-#endif //__UPSCALE_BINARY_HELPER_H__
+#endif //__AMPLIAR_BINARY_HELPER_H__

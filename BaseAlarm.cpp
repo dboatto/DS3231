@@ -15,10 +15,10 @@
  */
 #include "BaseAlarm.h"
 
-using namespace Upscale::DS3231;
-using Upscale::BinaryHelper::setBitOn;
-using Upscale::BinaryHelper::setBitOff;
-using Upscale::BinaryHelper::isBitSet;
+using namespace Ampliar::DS3231;
+using Ampliar::BinaryHelper::setBitOn;
+using Ampliar::BinaryHelper::setBitOff;
+using Ampliar::BinaryHelper::isBitSet;
 
 BaseAlarm::BaseAlarm(uint8_t alarmControlBit, uint8_t alarmStatusBit):
     _alarmControlBit(alarmControlBit),

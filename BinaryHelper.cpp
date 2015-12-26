@@ -15,7 +15,7 @@
  */
 #include "BinaryHelper.h"
 
-using namespace Upscale;
+using namespace Ampliar;
 
 /**
  * Converts a base-10 integer to BCD.

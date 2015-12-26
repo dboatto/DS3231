@@ -15,12 +15,12 @@
  */
 #include "Alarm2.h"
 
-using namespace Upscale::DS3231;
-using Upscale::BinaryHelper::setBitOn;
-using Upscale::BinaryHelper::setBitOff;
-using Upscale::BinaryHelper::isBitSet;
-using Upscale::BinaryHelper::fromBcdToDecimal;
-using Upscale::BinaryHelper::fromDecimalToBcd;
+using namespace Ampliar::DS3231;
+using Ampliar::BinaryHelper::setBitOn;
+using Ampliar::BinaryHelper::setBitOff;
+using Ampliar::BinaryHelper::isBitSet;
+using Ampliar::BinaryHelper::fromBcdToDecimal;
+using Ampliar::BinaryHelper::fromDecimalToBcd;
 
 Alarm2::Alarm2():
     BaseAlarm(RTC_REG_CONTROL_A2IE, RTC_REG_STATUS_A2F)

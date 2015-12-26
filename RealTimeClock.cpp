@@ -15,8 +15,8 @@
  */
 #include "RealTimeClock.h"
 
-using namespace Upscale::DS3231;
-using namespace Upscale::BinaryHelper;
+using namespace Ampliar::DS3231;
+using namespace Ampliar::BinaryHelper;
 
 /**
  * Check if the clock was stopped.

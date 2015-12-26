@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __UPSCALE_DS3231_ALARM1_H__
-#define __UPSCALE_DS3231_ALARM1_H__
+#ifndef __AMPLIAR_DS3231_ALARM1_H__
+#define __AMPLIAR_DS3231_ALARM1_H__
 
 #include <stdint.h>
 #include <Wire.h>
@@ -22,7 +22,7 @@
 #include "BinaryHelper.h"
 #include "BaseAlarm.h"
 
-namespace Upscale { namespace DS3231 {
+namespace Ampliar { namespace DS3231 {
 
 #define RTC_ALARM1_A1M1 7 ///< Alarm 1 A1M1
 #define RTC_ALARM1_A1M2 7 ///< Alarm 1 A1M2
@@ -68,4 +68,4 @@ private:
 };
 
 }} //end of namespace
-#endif //__UPSCALE_DS3231_ALARM1_H__
+#endif //__AMPLIAR_DS3231_ALARM1_H__

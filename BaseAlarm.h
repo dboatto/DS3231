@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __UPSCALE_DS3231_BASEALARM_H__
-#define __UPSCALE_DS3231_BASEALARM_H__
+#ifndef __AMPLIAR_DS3231_BASEALARM_H__
+#define __AMPLIAR_DS3231_BASEALARM_H__
 
 #include <stdint.h>
 #include <Wire.h>
 #include "BaseClock.h"
 #include "BinaryHelper.h"
 
-namespace Upscale { namespace DS3231 {
+namespace Ampliar { namespace DS3231 {
 
 class BaseAlarm : public BaseClock
 {
@@ -41,4 +41,4 @@ private:
 };
 
 }} //end of namespace
-#endif //__UPSCALE_DS3231_BASEALARM_H__
+#endif //__AMPLIAR_DS3231_BASEALARM_H__
