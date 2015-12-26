@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __UPSCALE_DS3231_ALARM1_H__
-#define __UPSCALE_DS3231_ALARM1_H__
+#ifndef __UPSCALE_DS3231_ALARM2_H__
+#define __UPSCALE_DS3231_ALARM2_H__
 
 #include <stdint.h>
 #include <Wire.h>
@@ -24,34 +24,30 @@
 
 namespace Upscale { namespace DS3231 {
 
-#define RTC_ALARM1_A1M1 7 ///< Alarm 1 A1M1
-#define RTC_ALARM1_A1M2 7 ///< Alarm 1 A1M2
-#define RTC_ALARM1_A1M3 7 ///< Alarm 1 A1M3
-#define RTC_ALARM1_A1M4 7 ///< Alarm 1 A1M4
-#define RTC_ALARM1_DYDT 6 ///< Alarm 1 DY/DT
+#define RTC_ALARM2_A2M2 7 ///< Alarm 1 A1M2
+#define RTC_ALARM2_A2M3 7 ///< Alarm 1 A1M3
+#define RTC_ALARM2_A2M4 7 ///< Alarm 1 A1M4
+#define RTC_ALARM2_DYDT 6 ///< Alarm 1 DY/DT
 
-class Alarm1 : public BaseAlarm
+class Alarm2 : public BaseAlarm
 {
 public:
     enum AlarmRate : uint8_t
     {
-        ONCE_PER_SECOND,
-        WHEN_SECONDS_MATCH,
-        WHEN_SECONDS_AND_MINUTES_MATCH,
-        WHEN_SECONDS_AND_MINUTES_AND_HOURS_MATCH,
-        WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_MATCH,
-        WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_OF_WEEK_MATCH
+        ONCE_PER_MINUTE,
+        WHEN_MINUTES_MATCH,
+        WHEN_MINUTES_AND_HOURS_MATCH,
+        WHEN_MINUTES_AND_HOURS_AND_DAY_MATCH,
+        WHEN_MINUTES_AND_HOURS_AND_DAY_OF_WEEK_MATCH
     };
 
 public:
-    Alarm1();
+    Alarm2();
     void readAlarm();
-    void writeAlarmOncePerSecond();
-    void writeAlarm(uint8_t second);
-    void writeAlarm(uint8_t minute, uint8_t second);
-    void writeAlarm(uint8_t hour, uint8_t minute, uint8_t second);
-    void writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
-    uint8_t getSecond() const;
+    void writeAlarmOncePerMinute();
+    void writeAlarm(uint8_t minute);
+    void writeAlarm(uint8_t hour, uint8_t minute);
+    void writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t hour, uint8_t minute);
     uint8_t getMinute() const;
     uint8_t getHour() const;
     uint8_t getDay() const;
@@ -59,7 +55,6 @@ public:
     AlarmRate getAlarmRate() const;
 
 private:
-    uint8_t _second;
     uint8_t _minute;
     uint8_t _day;
     uint8_t _hour;
@@ -68,4 +63,4 @@ private:
 };
 
 }} //end of namespace
-#endif //__UPSCALE_DS3231_ALARM1_H__
+#endif //__UPSCALE_DS3231_ALARM2_H__

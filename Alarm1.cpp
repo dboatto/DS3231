@@ -16,51 +16,16 @@
 #include "Alarm1.h"
 
 using namespace Upscale::DS3231;
-using namespace Upscale::BinaryHelper;
+using Upscale::BinaryHelper::setBitOn;
+using Upscale::BinaryHelper::setBitOff;
+using Upscale::BinaryHelper::isBitSet;
+using Upscale::BinaryHelper::fromBcdToDecimal;
+using Upscale::BinaryHelper::fromDecimalToBcd;
 
-bool Alarm1::isOn() const
+Alarm1::Alarm1():
+    BaseAlarm(RTC_REG_CONTROL_A1IE, RTC_REG_STATUS_A1F)
 {
-    Wire.beginTransmission(RTC_ADDR_I2C);
-    Wire.write(RTC_ADDR_CONTROL);
-    Wire.endTransmission();
-
-    Wire.requestFrom(RTC_ADDR_I2C, 1);
-    uint8_t controlRegister = Wire.read();
-
-    return isBitSet(controlRegister, RTC_REG_CONTROL_A1IE) && isBitSet(controlRegister, RTC_REG_CONTROL_INTCN);
-}
-
-void Alarm1::turnOn(bool enableInterruption) const
-{
-    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    if (enableInterruption)
-    {
-        setBitOn(controlRegister, RTC_REG_CONTROL_INTCN);
-    }
-    setBitOn(controlRegister, RTC_REG_CONTROL_A1IE);
-    writeRegister(RTC_ADDR_CONTROL, controlRegister);
-}
-
-void Alarm1::turnOff() const
-{
-    uint8_t controlRegister = readRegister(RTC_ADDR_CONTROL);
-    setBitOff(controlRegister, RTC_REG_CONTROL_A1IE);
-    writeRegister(RTC_ADDR_CONTROL, controlRegister);
-}
-
-bool Alarm1::wasItTriggered() const
-{
-    uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
-    bool triggered = isBitSet(statusRegister, RTC_REG_STATUS_A1F);
-
-    //If it was triggered, it is necessary to reset it
-    if (triggered)
-    {
-        setBitOff(statusRegister, RTC_REG_STATUS_A1F);
-        writeRegister(RTC_ADDR_STATUS, statusRegister);
-    }
-
-    return triggered;
+    //
 }
 
 void Alarm1::readAlarm()
