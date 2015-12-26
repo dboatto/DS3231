@@ -27,6 +27,11 @@ BaseAlarm::BaseAlarm(uint8_t alarmControlBit, uint8_t alarmStatusBit):
     //
 }
 
+BaseAlarm::~BaseAlarm()
+{
+    //
+}
+
 bool BaseAlarm::isOn() const
 {
     Wire.beginTransmission(RTC_ADDR_I2C);

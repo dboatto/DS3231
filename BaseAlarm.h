@@ -34,6 +34,7 @@ public:
 
 protected:
     BaseAlarm(uint8_t alarmControlBit, uint8_t alarmStatusBit);
+    virtual ~BaseAlarm();
 
 private:
     uint8_t _alarmControlBit;
