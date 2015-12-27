@@ -62,6 +62,17 @@ bool BaseAlarm::isOn() const
 /**
  * Turns on the alarm.
  *
+ * This method turns on the alarm and it does not change the status of the hardware interruption output on
+ * INT/SQW pin.
+ */
+void BaseAlarm::turnOn() const
+{
+    turnOn(false);
+}
+
+/**
+ * Turns on the alarm.
+ *
  * This method turns on the alarm and allows you to enable the hardware interruption output on INT/SQW pin.
  *
  * @param enableInterruption If true, enables the the hardware interruption output on the INT/SQW pin.
@@ -75,6 +86,17 @@ void BaseAlarm::turnOn(bool enableInterruption) const
     }
     setBitOn(controlRegister, _alarmControlBit);
     writeRegister(RTC_ADDR_CONTROL, controlRegister);
+}
+
+/**
+ * Turns off the alarm.
+ *
+ * This method turns off the alarm and it does not change the status of the hardware interruption output on
+ * INT/SQW pin.
+ */
+void BaseAlarm::turnOff() const
+{
+    turnOff(false);
 }
 
 /**
@@ -119,4 +141,14 @@ bool BaseAlarm::wasItTriggered() const
     }
 
     return triggered;
+}
+
+/**
+ * Clears the flag used to indicate whether the alarm was triggered or not.
+ */
+void BaseAlarm::clearAlarmFlag() const
+{
+    uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
+    setBitOff(statusRegister, _alarmStatusBit);
+    writeRegister(RTC_ADDR_STATUS, statusRegister);
 }

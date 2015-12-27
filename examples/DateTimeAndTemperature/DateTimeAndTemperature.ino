@@ -3,6 +3,19 @@
  * this library. Additionally, since DS3231 is able to measure the
  * temperature, this library provides a method to read it.
  *
+ * Wiring for Arduino Uno (for other boards, check the Wire
+ * Library documentation to figure out the SDA and SCL pins
+ * on Arduino):
+ *
+ * +---------+--------+
+ * | Arduino | DS3231 |
+ * +---------+--------+
+ * | A4      | SDA    |
+ * | A5      | SCL    |
+ * | GND     | GND    |
+ * | 5V      | VCC    |
+ * +---------+--------+
+ * 
  * More information: https://github.com/dboatto/DS3231
  *
  * In order to use this example, open the Serial Monitor on

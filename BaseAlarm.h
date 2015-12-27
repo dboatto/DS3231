@@ -34,9 +34,12 @@ class BaseAlarm : public BaseClock
 {
 public:
     bool isOn() const;
+    void turnOn() const;
     void turnOn(bool enableInterruption) const;
+    void turnOff() const;
     void turnOff(bool disableInterruption) const;
     bool wasItTriggered() const;
+    void clearAlarmFlag() const;
     virtual void readAlarm() = 0;
 
 protected:
