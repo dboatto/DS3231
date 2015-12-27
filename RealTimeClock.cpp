@@ -34,7 +34,7 @@ using namespace Ampliar::BinaryHelper;
  * \b Note: You should only trust on the date/time read if this method returns false.
  * @return True if the clock is stopped or false, otherwise.
  */
-bool RealTimeClock::wasItStopped()
+bool RealTimeClock::wasItStopped() const
 {
     return isBitSet(readRegister(RTC_ADDR_STATUS), RTC_REG_STATUS_OSF);
 }
@@ -135,7 +135,7 @@ void RealTimeClock::readDateTime()
  *
  * Every time we set a new date/time, it is necessary to clear this flag.
  */
-void RealTimeClock::clearOscillatorStopFlag()
+void RealTimeClock::clearOscillatorStopFlag() const
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     setBitOff(statusRegister, RTC_REG_STATUS_OSF);
@@ -259,7 +259,7 @@ int16_t RealTimeClock::getYear() const
  *
  * @return True if successful or false, otherwise.
  */
-bool RealTimeClock::forceTemperatureUpdate()
+bool RealTimeClock::forceTemperatureUpdate() const
 {
     uint8_t statusRegister = readRegister(RTC_ADDR_STATUS);
     if (isBitSet(statusRegister, RTC_REG_STATUS_BSY))
@@ -284,7 +284,7 @@ bool RealTimeClock::forceTemperatureUpdate()
  *
  * @return The temperature in degrees Celsius.
  */
-float RealTimeClock::readTemperature()
+float RealTimeClock::readTemperature() const
 {
     uint8_t decimalPart, resolution;
     float temperature;

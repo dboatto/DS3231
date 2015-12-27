@@ -36,10 +36,10 @@ class RealTimeClock : public BaseClock
 public:
     void readDateTime();
     void writeDateTime(int16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
-    static bool wasItStopped();
+    bool wasItStopped() const;
     //
-    static bool forceTemperatureUpdate();
-    static float readTemperature();
+    bool forceTemperatureUpdate() const;
+    float readTemperature() const;
     //
     uint8_t getSecond() const;
     uint8_t getMinute() const;
@@ -57,7 +57,7 @@ private:
     uint8_t _month;
     uint8_t _dayOfWeek;
     int16_t _year;
-    static void clearOscillatorStopFlag();
+    void clearOscillatorStopFlag() const;
     static uint8_t calculateDayOfWeek(int16_t year, uint8_t month, uint8_t day);
 };
 

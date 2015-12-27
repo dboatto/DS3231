@@ -44,37 +44,31 @@ public:
     };
 
 public:
-    static void enableBattery();
-    static void disableBattery();
-    static bool isBatteryEnabled();
+    void enableBattery() const;
+    void disableBattery() const;
+    bool isBatteryEnabled() const;
     //
-    static void enable32khzOutput();
-    static void disable32khzOutput();
-    static bool is32khzOutputEnabled();
+    void enable32khzOutput() const;
+    void disable32khzOutput() const;
+    bool is32khzOutputEnabled() const;
     //
-    static void enableSquareWave(Frequency frequency);
-    static void disableSquareWave();
-    static bool isSquareWaveEnabled();
-    static Frequency getSquareWaveFrequency();
+    void enableSquareWave(Frequency frequency) const;
+    void disableSquareWave() const;
+    bool isSquareWaveEnabled() const;
+    Frequency getSquareWaveFrequency() const;
     //
-    static void enableBatteryBackedSquareWave(Frequency frequency);
-    static void disableBatteryBackedSquareWave();
-    static bool isBatteryBackedSquareWaveEnabled();
+    void enableBatteryBackedSquareWave(Frequency frequency) const;
+    void disableBatteryBackedSquareWave() const;
+    bool isBatteryBackedSquareWaveEnabled() const;
     //
-    static void writeCalibration(int8_t value);
-    static int8_t readCalibration();
+    void writeCalibration(int8_t value) const;
+    int8_t readCalibration() const;
 
 private:
-    /**
-     * Empty constructor.
-     *
-     * This is a "static" class.
-     */
-    RealTimeClockController();
-    static void toggleBattery(bool on);
-    static void toggle32khzOutput(bool on);
-    static void toggleBatteryBackedSquareWave(bool on);
-    static void toggleSquareWave(bool on, Frequency frequency);
+    void toggleBattery(bool on) const;
+    void toggle32khzOutput(bool on) const;
+    void toggleBatteryBackedSquareWave(bool on) const;
+    void toggleSquareWave(bool on, Frequency frequency) const;
 };
 
 }} //end of namespace
