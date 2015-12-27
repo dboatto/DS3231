@@ -4,6 +4,9 @@
  * usage is pretty much the same and you can easily figure out
  * how to use them if you can understand this example.
  *
+ * In this example, the built-in led (pin 13) will blink once
+ * per second.
+ *
  * More information: https://github.com/dboatto/DS3231
  *
  * Wiring for Arduino Uno (for other boards, check the Wire
@@ -46,7 +49,6 @@ void alarmTriggered()
 
 void setup()
 {
-    Serial.begin(9600);
     pinMode(pin, OUTPUT);
 
     //It turns on the alarm and it enables the hardware interruption

@@ -15,7 +15,7 @@
  * | GND     | GND    |
  * | 5V      | VCC    |
  * +---------+--------+
- * 
+ *
  * More information: https://github.com/dboatto/DS3231
  *
  * In order to use this example, open the Serial Monitor on
@@ -40,7 +40,7 @@ void setup()
     Serial.begin(9600);
 
     // Writes the date/time on DS3231 internal memory.
-    // Use: writeDateTime(year, month, day, hour, minute, second);
+    // Usage: writeDateTime(year, month, day, hour, minute, second);
     clock.writeDateTime(2015, 12, 27, 16, 28, 0);
 }
 
