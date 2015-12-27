@@ -39,7 +39,7 @@ Alarm1::Alarm1():
 /**
  * Retrieves settings of the first alarm and stores in this object.
  *
- * This method reads information of the first alarm from the appropriate register. Then, it stores the values in this
+ * This method reads information of the first alarm from DS3231 internal registers. Then, it stores the values in this
  * object and make them available through getters, like getHour(), getMinute(), getAlarmRate(), etc.
  *
  * \b Note: you must call this method before using any getter, otherwise they will return zero or undefined.
@@ -148,16 +148,16 @@ void Alarm1::writeAlarmOncePerSecond()
 /**
  * Sets the first alarm to trigger when seconds match.
  *
- * This method will setup the first alarm to trigger when the seconds in the oscillator (clock) matches the parameter.
+ * This method will setup the first alarm to trigger when the seconds in DS3231's clock matches the parameter.
  * For instance, if you call writeAlarm(10), the device will alarm at 14:35:10, 15:35:10, 19:12:10, etc. As you can
- * see, the only part relevant are the seconds. Since only seconds are used, the getters getMinute(), getHour(),
+ * see, the only part relevant are the seconds component. Since only seconds are used, the getters getMinute(), getHour(),
  * getDay() and getDayOfWeek() will return 0 if called.
  *
  * \b Note:
  * - In order to know if the alarm was triggered, you must call wasItTriggered() method;
  * - If you enabled interruption when you turned the alarm on, the INT/SQW will initiate an interrupt signal.
  *
- * @param second second (from 0 to 59)
+ * @param second The seconds (from 0 to 59).
  */
 void Alarm1::writeAlarm(uint8_t second)
 {
@@ -182,17 +182,17 @@ void Alarm1::writeAlarm(uint8_t second)
 /**
  * Sets the first alarm to trigger when minutes and seconds match.
  *
- * This method will setup the first alarm to trigger when minutes and seconds in the oscillator (clock) match the
+ * This method will setup the first alarm to trigger when minutes and seconds in DS3231's clock match the
  * parameters. For instance, if you call writeAlarm(19, 10), the device will alarm at 00:19:10, 04:19:10, 17:19:10,
- * etc. As you can see, the only parts relevant are the minutes and the seconds. The getters getHour(), getDay() and
- * getDayOfWeek() will return 0 if called, since their values are not used.
+ * etc. As you can see, the only parts relevant are the minutes and the seconds components. The getters getHour(),
+ * getDay() and getDayOfWeek() will return 0 if called, since their values are not used.
  *
  * \b Note:
  * - In order to know if the alarm was triggered, you must call wasItTriggered() method;
  * - If you enabled interruption when you turned the alarm on, the INT/SQW will initiate an interrupt signal.
  *
- * @param minute minute (from 0 to 59)
- * @param second second (from 0 to 59)
+ * @param minute The minutes (from 0 to 59).
+ * @param second The seconds (from 0 to 59).
  */
 void Alarm1::writeAlarm(uint8_t minute, uint8_t second)
 {
@@ -218,7 +218,7 @@ void Alarm1::writeAlarm(uint8_t minute, uint8_t second)
 /**
  * Sets the first alarm to trigger when hours, minutes and seconds match.
  *
- * This method will setup the first alarm to trigger when hours, minutes and seconds in the oscillator (clock) match
+ * This method will setup the first alarm to trigger when hours, minutes and seconds in DS3231's clock match
  * the parameters. For instance, if you call writeAlarm(22, 35, 15), the device will alarm at 04/06/2014 22:35:15,
  * 04/07/2014 22:35:15, 02/02/1991 22:32:15, etc. As you can see, the calendar information is not considered, therefore
  * the getters getDay() and getDayOfWeek() will return 0 if called.
@@ -227,9 +227,9 @@ void Alarm1::writeAlarm(uint8_t minute, uint8_t second)
  * - In order to know if the alarm was triggered, you must call wasItTriggered() method;
  * - If you enabled interruption when you turned the alarm on, the INT/SQW will initiate an interrupt signal.
  *
- * @param hour hour (from 0 to 23)
- * @param minute minute (from 0 to 59)
- * @param second second (from 0 to 59)
+ * @param hour   The hours (from 0 to 23).
+ * @param minute The minutes (from 0 to 59).
+ * @param second The seconds (from 0 to 59).
  */
 void Alarm1::writeAlarm(uint8_t hour, uint8_t minute, uint8_t second)
 {
@@ -256,8 +256,8 @@ void Alarm1::writeAlarm(uint8_t hour, uint8_t minute, uint8_t second)
 /**
  * Sets the first alarm to trigger when the day (or day of week), hours, minutes and seconds match.
  *
- * This method will setup the first alarm to trigger when day the (or day of week), hours, minutes and seconds in the
- * oscillator (clock) match the parameters. For instance, if you call writeAlarm(false, 25, 22, 35, 15), the device
+ * This method will setup the first alarm to trigger when day the (or day of week), hours, minutes and seconds in
+ * DS3231's clock match the parameters. For instance, if you call writeAlarm(false, 25, 22, 35, 15), the device
  * will alarm at Jan/25/2014 22:35:15, Dec/25/2014 22:35:15, Jul/25/1991 22:32:15, etc. As you can see, month and year
  * are not relevant.
  *
@@ -268,11 +268,11 @@ void Alarm1::writeAlarm(uint8_t hour, uint8_t minute, uint8_t second)
  * - In order to know if the alarm was triggered, you must call wasItTriggered() method;
  * - If you enabled interruption when you turned the alarm on, the INT/SQW will initiate an interrupt signal.
  *
- * @param useDayOfWeek indicates if the parameter \b day must be interpreted as day of the week or day of the moth.
- * @param day day of the month (from 1 to 31) or day of the week (from 1 to 7).
- * @param hour hour (from 0 to 23)
- * @param minute minute (from 0 to 59)
- * @param second second (from 0 to 59)
+ * @param useDayOfWeek Indicates if the parameter \b day must be interpreted as day of the week or day of the month.
+ * @param day          The day of the month (from 1 to 31) or the day of the week (from 1 to 7).
+ * @param hour         The hours (from 0 to 23).
+ * @param minute       The minutes (from 0 to 59).
+ * @param second       The seconds (from 0 to 59).
  */
 void Alarm1::writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second)
 {
@@ -305,11 +305,11 @@ void Alarm1::writeAlarm(bool useDayOfWeek, uint8_t day, uint8_t hour, uint8_t mi
 }
 
 /**
- * Gets seconds (from 0 to 59)
+ * Gets the seconds component of the date represented by this instance.
  *
  * \b Note: You must call readAlarm() before using this method, otherwise it will return 0.
  *
- * @return second (from 0 to 59)
+ * @return The seconds component (from 0 to 59).
  */
 uint8_t Alarm1::getSecond() const
 {
@@ -317,11 +317,11 @@ uint8_t Alarm1::getSecond() const
 }
 
 /**
- * Gets minutes (from 0 to 59)
+ * Gets the minute component of the date represented by this instance.
  *
  * \b Note: You must call readAlarm() before using this method, otherwise it will return 0.
  *
- * @return minute (from 0 to 59)
+ * @return The minute component (from 0 to 59).
  */
 uint8_t Alarm1::getMinute() const
 {
@@ -329,11 +329,11 @@ uint8_t Alarm1::getMinute() const
 }
 
 /**
- * Gets hours in 24-hour format (from 0 to 23)
+ * Gets the hour component of the date represented by this instance.
  *
  * \b Note: You must call readAlarm() before using this method, otherwise it will return 0.
  *
- * @return hour (from 0 to 23)
+ * @return The hour component (from 0 to 23).
  */
 uint8_t Alarm1::getHour() const
 {
@@ -341,11 +341,11 @@ uint8_t Alarm1::getHour() const
 }
 
 /**
- * Gets the day of the month (from 1 to 31)
+ * Gets the day of the month represented by this instance.
  *
  * \b Note: You must call readAlarm() before using this method, otherwise it will return 0.
  *
- * @return day of the month (from 1 to 31)
+ * @return The day of the month (from 1 to 31).
  */
 uint8_t Alarm1::getDay() const
 {
@@ -353,11 +353,11 @@ uint8_t Alarm1::getDay() const
 }
 
 /**
- * Gets the day of week (from 1 to 7)
+ * Gets the day of the week represented by this instance.
  *
  * \b Note: You must call readAlarm() before using this method, otherwise it will return 0.
  *
- * @return day of week (from 1 to 7)
+ * @return The day of the week (from 1 to 7).
  */
 uint8_t Alarm1::getDayOfWeek() const
 {
@@ -365,11 +365,11 @@ uint8_t Alarm1::getDayOfWeek() const
 }
 
 /**
- * Gets the alarm rate
+ * Gets the alarm rate.
  *
- * \b Note: You must call readAlarm() before using this method, otherwise it will return ALARM1_UNDEFINED.
+ * \b Note: You must call readAlarm() before using this method, otherwise it will return Alarm1::ALARM1_UNDEFINED.
  *
- * @return alarm rate
+ * @return The alarm rate. Check enum Alarm1::AlarmRate for more details.
  */
 Alarm1::AlarmRate Alarm1::getAlarmRate() const
 {

@@ -18,7 +18,9 @@
 using namespace Ampliar::DS3231;
 
 /**
- * Setup I2C communication.
+ * Constructor.
+ *
+ * This method setup I2C communication.
  */
 BaseClock::BaseClock()
 {
@@ -28,13 +30,13 @@ BaseClock::BaseClock()
 /**
  * Reads one byte from a register at a given address.
  *
- * This method reads a byte from a register at a given address using I2C (Inter-Integrated Circuit) communication
+ * This method reads one byte from a register at a given address using I2C (Inter-Integrated Circuit) communication
  * protocol.
  *
  * Check the datasheet or the header BaseClock.h to get the registers available and their addresses.
  *
- * @param address Address of the register.
- * @return Content of the register.
+ * @param address The address of the register.
+ * @return        The content of the register.
  */
 uint8_t BaseClock::readRegister(uint8_t address)
 {
@@ -53,8 +55,8 @@ uint8_t BaseClock::readRegister(uint8_t address)
  *
  * Check the datasheet or the header BaseClock.h to get the registers available and their addresses.
  *
- * @param address Address of the register.
- * @param value The value to be written in the register.
+ * @param address The address of the register.
+ * @param value   The value to be written in the register.
  */
 void BaseClock::writeRegister(uint8_t address, uint8_t value)
 {

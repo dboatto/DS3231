@@ -45,7 +45,7 @@ BaseAlarm::~BaseAlarm()
 /**
  * Checks whether the alarm is turned on or not.
  *
- * @return true, if the alarm is active.
+ * @return True if the alarm is active.
  */
 bool BaseAlarm::isOn() const
 {
@@ -60,11 +60,11 @@ bool BaseAlarm::isOn() const
 }
 
 /**
- * Turn on the alarm.
+ * Turns on the alarm.
  *
- * This method turns on the alarm and allows you to enable the hardware interruption output on the INT/SQW pin.
+ * This method turns on the alarm and allows you to enable the hardware interruption output on INT/SQW pin.
  *
- * @param enableInterruption if true, enables the the hardware interruption output on the INT/SQW pin.
+ * @param enableInterruption If true, enables the the hardware interruption output on the INT/SQW pin.
  */
 void BaseAlarm::turnOn(bool enableInterruption) const
 {
@@ -80,9 +80,9 @@ void BaseAlarm::turnOn(bool enableInterruption) const
 /**
  * Turns off the alarm.
  *
- * This method turns off the alarm and allows you to disable the hardware interruption output on the INT/SQW pin.
+ * This method turns off the alarm and allows you to disable the hardware interruption output on INT/SQW pin.
  *
- * @param disableInterruption if true, disables the the hardware interruption output on the INT/SQW pin.
+ * @param disableInterruption If true, disables the the hardware interruption output on the INT/SQW pin.
  */
 void BaseAlarm::turnOff(bool disableInterruption) const
 {
@@ -104,7 +104,7 @@ void BaseAlarm::turnOff(bool disableInterruption) const
  * If you don't want to call this method periodically to check the alarm status, you may choose to enable hardware
  * interruption when you turn on the alarm. Check the method turnOn() for more details.
  *
- * @return true if the alarm was triggered and false, otherwise.
+ * @return True if the alarm was triggered.
  */
 bool BaseAlarm::wasItTriggered() const
 {

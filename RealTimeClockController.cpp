@@ -24,7 +24,7 @@ using namespace Ampliar::BinaryHelper;
  * It checks if the battery is enabled when DS3231 switches to the battery, i.e., when the main power supply
  * is turned off.
  *
- * @return true if it is enabled or false, otherwise.
+ * @return True if it is enabled.
  */
 bool RealTimeClockController::isBatteryEnabled()
 {
@@ -49,7 +49,7 @@ void RealTimeClockController::enableBattery()
  * is turned off.
  *
  * \b Note: If you disable the battery and the power supply is cut off, the oscillator (clock) will stop. Therefore,
- * next you start your board, you will need to set the date/time again.
+ * next time you start using your board, you will need to set the date/time again.
  */
 void RealTimeClockController::disableBattery()
 {
@@ -61,7 +61,7 @@ void RealTimeClockController::disableBattery()
  *
  * This method toggles the battery-backed mode by changing the EOSC bit of the control register.
  *
- * @param on true to enable or false to disable.
+ * @param on True to enable; false to disable.
  */
 void RealTimeClockController::toggleBattery(bool on)
 {
@@ -82,7 +82,7 @@ void RealTimeClockController::toggleBattery(bool on)
  *
  * It checks if the 32 kHz output is enabled.
  *
- * @return true if it is enabled or false, otherwise.
+ * @return True if it is enabled.
  */
 bool RealTimeClockController::is32khzOutputEnabled()
 {
@@ -114,7 +114,7 @@ void RealTimeClockController::disable32khzOutput()
  *
  * This method toggles the 32 KHz output pin by changing the EN32kHz bit of the status register.
  *
- * @param on true to enable or false to disable.
+ * @param on True to enable; false to disable.
  */
 void RealTimeClockController::toggle32khzOutput(bool on)
 {
@@ -137,7 +137,7 @@ void RealTimeClockController::toggle32khzOutput(bool on)
  * It checks if the square-wave output is enabled when DS3231 switches to the battery, i.e., when the main power supply
  * is turned off.
  *
- * @return true if it is enabled or false, otherwise.
+ * @return True if it is enabled;
  */
 bool RealTimeClockController::isBatteryBackedSquareWaveEnabled()
 {
@@ -152,7 +152,7 @@ bool RealTimeClockController::isBatteryBackedSquareWaveEnabled()
  *
  * This method also enables the square-wave output pin.
  *
- * @param frequency Frequency of the square-wave.
+ * @param frequency The frequency of the square-wave.
  */
 void RealTimeClockController::enableBatteryBackedSquareWave(Frequency frequency)
 {
@@ -178,7 +178,7 @@ void RealTimeClockController::disableBatteryBackedSquareWave()
  *
  * This method toggles the battery-backed square-wave output by changing the BBSQW bit of the control register.
  *
- * @param on true to enable or false to disable.
+ * @param on True to enable; false to disable.
  */
 void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
 {
@@ -199,7 +199,7 @@ void RealTimeClockController::toggleBatteryBackedSquareWave(bool on)
  *
  * It checks if the square-wave output is enabled.
  *
- * @return true if it is enabled or false, otherwise.
+ * @return True if it is enabled.
  */
 bool RealTimeClockController::isSquareWaveEnabled()
 {
@@ -211,7 +211,7 @@ bool RealTimeClockController::isSquareWaveEnabled()
  *
  * This method enables an output of a square-wave signal, at a given frequency, in the correspondent pin.
  *
- * @param frequency Frequency  of the square-wave.
+ * @param frequency The frequency  of the square-wave.
  */
 void RealTimeClockController::enableSquareWave(Frequency frequency)
 {
@@ -237,8 +237,8 @@ void RealTimeClockController::disableSquareWave()
  *
  * This method toggles the square-wave output pin by changing the INTCN bit of the control register.
  *
- * @param on true to enable or false to disable.
- * @param frequency Frequency of the square-wave. This parameter will be ignored if the parameter "on" is false.
+ * @param on        True to enable; false to disable.
+ * @param frequency The frequency of the square-wave. This parameter will be ignored if the parameter "on" is false.
  */
 void RealTimeClockController::toggleSquareWave(bool on, Frequency frequency)
 {

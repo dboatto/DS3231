@@ -26,7 +26,7 @@ namespace Ampliar { namespace DS3231 {
 /**
  * Base class for Alarm1 and Alarm2.
  *
- * This class provide common methods used by the two alarms available on DS3231.
+ * This class provides common methods used by the two alarms available on DS3231.
  *
  * @author Daniel Murari Boatto
  */
