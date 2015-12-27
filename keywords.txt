@@ -1,0 +1,88 @@
+########################################
+# Syntax Coloring Map For DS3231 Library
+########################################
+
+########################################
+# Datatypes (KEYWORD1)
+########################################
+
+Alarm1	KEYWORD1
+Alarm2	KEYWORD1
+RealTimeClock	KEYWORD1
+RealTimeClockController	KEYWORD1
+
+########################################
+# Alarm (1 and 2) Methods
+########################################
+isOn	KEYWORD2
+turnOn	KEYWORD2
+turnOff	KEYWORD2
+wasItTriggered	KEYWORD2
+readAlarm	KEYWORD2
+writeAlarmOncePerSecond	KEYWORD2
+writeAlarm	KEYWORD2
+getSecond	KEYWORD2
+getMinute	KEYWORD2
+getHour	KEYWORD2
+getDay	KEYWORD2
+getDayOfWeek	KEYWORD2
+getAlarmRate	KEYWORD2
+
+########################################
+# RealTimeClock Methods
+########################################
+readDateTime	KEYWORD2
+writeDateTime	KEYWORD2
+getSecond	KEYWORD2
+getMinute	KEYWORD2
+getHour	KEYWORD2
+getDay	KEYWORD2
+getMonth	KEYWORD2
+getDayOfWeek	KEYWORD2
+getYear	KEYWORD2
+wasItStopped	KEYWORD2
+forceTemperatureUpdate	KEYWORD2
+readTemperature	KEYWORD2
+
+########################################
+# RealTimeClockController Methods
+########################################
+enableBattery	KEYWORD2
+disableBattery	KEYWORD2
+isBatteryEnabled	KEYWORD2
+enable32khzOutput	KEYWORD2
+disable32khzOutput	KEYWORD2
+is32khzOutputEnabled	KEYWORD2
+enableSquareWave	KEYWORD2
+disableSquareWave	KEYWORD2
+isSquareWaveEnabled	KEYWORD2
+getSquareWaveFrequency	KEYWORD2
+enableBatteryBackedSquareWave	KEYWORD2
+disableBatteryBackedSquareWave	KEYWORD2
+isBatteryBackedSquareWaveEnabled	KEYWORD2
+writeCalibration	KEYWORD2
+readCalibration	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+FREQ_1HZ	LITERAL1
+FREQ_1024KHZ	LITERAL1
+FREQ_4096KHZ	LITERAL1
+FREQ_8192KHZ	LITERAL1
+
+ALARM1_UNDEFINED	LITERAL1
+ONCE_PER_SECOND	LITERAL1
+WHEN_SECONDS_MATCH	LITERAL1
+WHEN_SECONDS_AND_MINUTES_MATCH	LITERAL1
+WHEN_SECONDS_AND_MINUTES_AND_HOURS_MATCH	LITERAL1
+WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_MATCH	LITERAL1
+WHEN_SECONDS_AND_MINUTES_AND_HOURS_AND_DAY_OF_WEEK_MATCH	LITERAL1
+
+ALARM2_UNDEFINED	LITERAL1
+ONCE_PER_MINUTE	LITERAL1
+WHEN_MINUTES_MATCH	LITERAL1
+WHEN_MINUTES_AND_HOURS_MATCH	LITERAL1
+WHEN_MINUTES_AND_HOURS_AND_DAY_MATCH	LITERAL1
+WHEN_MINUTES_AND_HOURS_AND_DAY_OF_WEEK_MATCH	LITERAL1
