@@ -62,6 +62,17 @@ Bonus:
 All cpp files are heavily documented. If you prefer, you can generate the documentation using Doxygen. You just need to
 run doxygen in the library's folder.
 
+## How to Contribute?
+
+Do you want to help? Great! There are some ways to contribute:
+
+* **Report a bug** - If you find a bug, please use the [Issues](https://github.com/dboatto/DS3231/issues) page;
+* **Fix a bug** - Better than reporting a bug is to fix it! Just fork the project, fix the bug and send me a pull
+  request.
+* **Grammar and spell check** - It is nice to have a well written documentation, don't you? Please contact me if you
+  find any error or strange English expression. You may use the [Issues](https://github.com/dboatto/DS3231/issues)
+  page.
+
 ## Example
 
 You can find more examples on examples folder. When you install this library, the Arduino IDE will make them available
