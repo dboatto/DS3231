@@ -33,7 +33,8 @@ using namespace Ampliar::DS3231;
 RealTimeClock clock;
 
 //We gonna show the days of the week in the loop() function.
-String days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+String days[] = { "Sunday", "Monday", "Tuesday", "Wednesday",
+                  "Thursday", "Friday", "Saturday" };
 
 void setup()
 {
