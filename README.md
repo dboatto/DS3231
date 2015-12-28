@@ -11,19 +11,43 @@ DS3231 is a low-cost, extremely accurate I2C real-time clock (RTC) with an integ
 crystal oscillator (TCXO) and crystal. The device incorporates a battery input, and maintains accurate timekeeping when
 main power to the device is interrupted.
 
-For more details, please referrer the product [datasheet] (https://datasheets.maximintegrated.com/en/ds/DS3231.pdf).
+For more details, please referrer the product [datasheet](https://datasheets.maximintegrated.com/en/ds/DS3231.pdf).
 
 ## Library Features
 
 * Read and write date/time information.
 * Read the temperature and force the temperature update.
-* Full control of both alarms supported by DS3231.
+* Full control of both alarms supported by DS3231:
+    * enable/disable the alarms;
+    * enable/disable hardware interruption when the alarm is triggered;
+    * setup the alarm 1 to trigger:
+        * once per second;
+        * when seconds match;
+        * when minutes and seconds match;
+        * when hours, minutes, and seconds match;
+        * when date, hours, minutes, and seconds match;
+        * when day, hours, minutes, and seconds match;
+    * setup the alarm 2 to trigger:
+        * once per minute (00 seconds of every minute);
+        * when minutes match;
+        * when hours and minutes match;
+        * when date, hours, and minutes match;
+        * when day, hours, and minutes match.
 * Full control of DS3231 functionalities:
     * enable/disable the battery-backed mode;
     * enable/disable an output of a 32.768 kHz square-wave signal on the correspondent pin of DS3231;
     * enable/disable the square-wave output at a given frequency;
     * enable/disable the battery-backed square-wave output;
     * calibration by setting the aging offset register.
+
+Bonus:
+
+* Heavily documented using [Doxygen](www.doxygen.org/) syntax.
+* Reader friendly library. There is no black-magic difficult-to-understand piece of code. There are plenty of comments
+  and the methods and variables names are very descriptives.
+* Library divided in many classes (OOP friendly). You are not obliged to include everything. Pick up only what you
+  need.
+* Everything inside namespaces. It does not pollute the global namespace and avoid naming conflicts.
 
 ## Where to Buy?
 
