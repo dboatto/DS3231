@@ -78,7 +78,7 @@ Do you want to help? Great! There are some ways to contribute:
 You can find more examples on examples folder. When you install this library, the Arduino IDE will make them available
 through the menu File/Examples/Ampliar DS3231.
 
-```c++
+~~~~~~~~~~~~~~~{.cpp}
 /**
  * This example shows how to read and write date/time on DS3231 through
  * this library. Additionally, since DS3231 is able to measure the
@@ -150,7 +150,7 @@ void loop()
 
     delay (1000); //delays 1 (one) second
 }
-```
+~~~~~~~~~~~~~~~
 
 ## License
 
