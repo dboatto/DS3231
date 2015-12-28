@@ -7,18 +7,30 @@ This project is a comprehensive library for [Arduino](http://arduino.cc) to inte
 
 ## About DS3231
 
-the DS3231 is a low-cost, extremely accurate I2C real-time clock (RTC) with an integrated temperature-compensated
+DS3231 is a low-cost, extremely accurate I2C real-time clock (RTC) with an integrated temperature-compensated
 crystal oscillator (TCXO) and crystal. The device incorporates a battery input, and maintains accurate timekeeping when
 main power to the device is interrupted.
 
 For more details, please referrer the product [datasheet] (https://datasheets.maximintegrated.com/en/ds/DS3231.pdf).
 
+## Library Features
+
+* Read and write date/time information.
+* Read the temperature and force the temperature update.
+* Full control of both alarms supported by DS3231.
+* Full control of DS3231 functionalities:
+    * enable/disable the battery-backed mode;
+    * enable/disable an output of a 32.768 kHz square-wave signal on the correspondent pin of DS3231;
+    * enable/disable the square-wave output at a given frequency;
+    * enable/disable the battery-backed square-wave output;
+    * calibration by setting the aging offset register.
+
 ## Where to Buy?
 
-** USA **
+**USA**
 * [Adafruit] (https://www.adafruit.com/product/255)
 
-** Brazil **
+**Brazil**
 * [FILIPEFLOP] (http://www.filipeflop.com/pd-1c7dbf-real-time-clock-rtc-ds3231.html)
 
 ## Documentation
