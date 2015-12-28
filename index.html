@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Ampliar - DS3231 Library by dboatto</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Ampliar - DS3231 Library</h1>
+        <h2>Arduino library for DS3231 Real Time Clock (RTC)</h2>
+        <a href="https://github.com/dboatto/DS3231" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="ds3231" class="anchor" href="#ds3231" aria-hidden="true"><span class="octicon octicon-link"></span></a>DS3231</h1>
+
+<p>Arduino library for DS3231 Real Time Clock (RTC).</p>
+
+<p>This project is a comprehensive library for <a href="http://arduino.cc">Arduino</a> to interface with
+<a href="https://www.maximintegrated.com/en/products/digital/real-time-clocks/DS3231.html">Maxim DS3231</a> real-time clock.</p>
+
+<h2>
+<a id="about-ds3231" class="anchor" href="#about-ds3231" aria-hidden="true"><span class="octicon octicon-link"></span></a>About DS3231</h2>
+
+<p>DS3231 is a low-cost, extremely accurate I2C real-time clock (RTC) with an integrated temperature-compensated
+crystal oscillator (TCXO) and crystal. The device incorporates a battery input, and maintains accurate timekeeping when
+main power to the device is interrupted.</p>
+
+<p>For more details, please referrer the product <a href="https://datasheets.maximintegrated.com/en/ds/DS3231.pdf">datasheet</a>.</p>
+
+<h2>
+<a id="library-features" class="anchor" href="#library-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Library Features</h2>
+
+<ul>
+<li>Read and write date/time information.</li>
+<li>Read the temperature and force the temperature update.</li>
+<li>Full control of both alarms supported by DS3231:
+
+<ul>
+<li>enable/disable the alarms;</li>
+<li>enable/disable hardware interruption when the alarm is triggered;</li>
+<li>setup the alarm 1 to trigger:
+
+<ul>
+<li>once per second;</li>
+<li>when seconds match;</li>
+<li>when minutes and seconds match;</li>
+<li>when hours, minutes, and seconds match;</li>
+<li>when date, hours, minutes, and seconds match;</li>
+<li>when day, hours, minutes, and seconds match;</li>
+</ul>
+</li>
+<li>setup the alarm 2 to trigger:
+
+<ul>
+<li>once per minute (00 seconds of every minute);</li>
+<li>when minutes match;</li>
+<li>when hours and minutes match;</li>
+<li>when date, hours, and minutes match;</li>
+<li>when day, hours, and minutes match.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Full control of DS3231 functionalities:
+
+<ul>
+<li>enable/disable the battery-backed mode;</li>
+<li>enable/disable an output of a 32.768 kHz square-wave signal on the correspondent pin of DS3231;</li>
+<li>enable/disable the square-wave output at a given frequency;</li>
+<li>enable/disable the battery-backed square-wave output;</li>
+<li>calibration by setting the aging offset register.</li>
+</ul>
+</li>
+</ul>
+
+<p>Bonus:</p>
+
+<ul>
+<li>Heavily documented using <a href="http://www.doxygen.org/">Doxygen</a> syntax.</li>
+<li>Reader friendly library. There is no black-magic difficult-to-understand piece of code. There are plenty of comments
+and the methods and variables names are very descriptives.</li>
+<li>Library divided in many classes (OOP friendly). You are not obliged to include everything. Pick up only what you
+need.</li>
+<li>Everything inside namespaces. It does not pollute the global namespace and avoid naming conflicts.</li>
+</ul>
+
+<h2>
+<a id="where-to-buy" class="anchor" href="#where-to-buy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Where to Buy?</h2>
+
+<p><strong>USA</strong></p>
+
+<ul>
+<li><a href="https://www.adafruit.com/product/255">Adafruit</a></li>
+</ul>
+
+<p><strong>Brazil</strong></p>
+
+<ul>
+<li><a href="http://www.filipeflop.com/pd-1c7dbf-real-time-clock-rtc-ds3231.html">FILIPEFLOP</a></li>
+</ul>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>All cpp files are heavily documented. If you prefer, you can generate the documentation using Doxygen. You just need to
+run doxygen in the library's folder.</p>
+
+<h2>
+<a id="how-to-contribute" class="anchor" href="#how-to-contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to Contribute?</h2>
+
+<p>Do you want to help? Great! There are some ways to contribute:</p>
+
+<ul>
+<li>
+<strong>Report a bug</strong> - If you find a bug, please use the <a href="https://github.com/dboatto/DS3231/issues">Issues</a> page;</li>
+<li>
+<strong>Fix a bug</strong> - Better than reporting a bug is to fix it! Just fork the project, fix the bug and send me a pull
+request.</li>
+<li>
+<strong>Grammar and spell check</strong> - It is nice to have a well written documentation, don't you? Please contact me if you
+find any error or strange English expression. You may use the <a href="https://github.com/dboatto/DS3231/issues">Issues</a>
+page.</li>
+</ul>
+
+<h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<p>You can find more examples on examples folder. When you install this library, the Arduino IDE will make them available
+through the menu File/Examples/Ampliar DS3231.</p>
+
+<div class="highlight highlight-source-c++"><pre><span class="pl-c">/**</span>
+<span class="pl-c"> * This example shows how to read and write date/time on DS3231 through</span>
+<span class="pl-c"> * this library. Additionally, since DS3231 is able to measure the</span>
+<span class="pl-c"> * temperature, this library provides a method to read it.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * Wiring for Arduino Uno (for other boards, check the Wire</span>
+<span class="pl-c"> * Library documentation to figure out the SDA and SCL pins</span>
+<span class="pl-c"> * on Arduino):</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * +---------+--------+</span>
+<span class="pl-c"> * | Arduino | DS3231 |</span>
+<span class="pl-c"> * +---------+--------+</span>
+<span class="pl-c"> * | A4      | SDA    |</span>
+<span class="pl-c"> * | A5      | SCL    |</span>
+<span class="pl-c"> * | GND     | GND    |</span>
+<span class="pl-c"> * | 5V      | VCC    |</span>
+<span class="pl-c"> * +---------+--------+</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * More information: https://github.com/dboatto/DS3231</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * In order to use this example, open the Serial Monitor on</span>
+<span class="pl-c"> * Arduino IDE (Ctrl+Shit+M).</span>
+<span class="pl-c"> */</span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>Arduino.h<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>RealTimeClock.h<span class="pl-pds">"</span></span>
+
+<span class="pl-c">//All library classes are inside namespaces.</span>
+<span class="pl-c">//Therefore, use the following statement to import them.</span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">Ampliar</span>::DS3231<span class="pl-k">;</span>
+
+<span class="pl-c">//This statement creates an instance of RealTimeClock, used to access DS3231</span>
+<span class="pl-c">//basic date/time and temperature functionalities.</span>
+RealTimeClock clock;
+
+<span class="pl-c">//We gonna show the days of the week in the loop() function.</span>
+String days[] = { <span class="pl-s"><span class="pl-pds">"</span>Sunday<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Monday<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Tuesday<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Wednesday<span class="pl-pds">"</span></span>,
+                  <span class="pl-s"><span class="pl-pds">"</span>Thursday<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Friday<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Saturday<span class="pl-pds">"</span></span> };
+
+<span class="pl-k">void</span> <span class="pl-en">setup</span>()
+{
+    Serial.<span class="pl-c1">begin</span>(<span class="pl-c1">9600</span>);
+
+    <span class="pl-c">// Writes the date/time on DS3231 internal memory.</span>
+    <span class="pl-c">// Usage: writeDateTime(year, month, day, hour, minute, second);</span>
+    <span class="pl-c1">clock</span>.<span class="pl-c1">writeDateTime</span>(<span class="pl-c1">2015</span>, <span class="pl-c1">12</span>, <span class="pl-c1">27</span>, <span class="pl-c1">16</span>, <span class="pl-c1">28</span>, <span class="pl-c1">0</span>);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">loop</span>()
+{
+    <span class="pl-c">//Reads the date/time information from DS3231</span>
+    <span class="pl-c1">clock</span>.<span class="pl-c1">readDateTime</span>();
+
+    Serial.<span class="pl-c1">print</span>(<span class="pl-c1">clock</span>.<span class="pl-c1">getDay</span>());
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">print</span>(<span class="pl-c1">clock</span>.<span class="pl-c1">getMonth</span>());
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">print</span>(<span class="pl-c1">clock</span>.<span class="pl-c1">getYear</span>());
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">print</span>(<span class="pl-c1">clock</span>.<span class="pl-c1">getHour</span>());
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>:<span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">print</span>(<span class="pl-c1">clock</span>.<span class="pl-c1">getMinute</span>());
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>:<span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">print</span>(<span class="pl-c1">clock</span>.<span class="pl-c1">getSecond</span>());
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">print</span>(days[<span class="pl-c1">clock</span>.<span class="pl-c1">getDayOfWeek</span>() - <span class="pl-c1">1</span>]);
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">print</span>(<span class="pl-c1">clock</span>.<span class="pl-c1">readTemperature</span>());
+    Serial.<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span> C<span class="pl-pds">"</span></span>);
+    Serial.<span class="pl-c1">println</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>);
+
+    <span class="pl-c1">delay</span> (<span class="pl-c1">1000</span>); <span class="pl-c">//delays 1 (one) second</span>
+}</pre></div>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>This library is licensed under the Apache License, Version 2.0. Check the LICENSE file for more details.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/dboatto/DS3231/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/dboatto/DS3231/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/dboatto/DS3231"></a> is maintained by <a href="https://github.com/dboatto">dboatto</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
