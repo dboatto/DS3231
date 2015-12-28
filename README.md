@@ -42,7 +42,7 @@ For more details, please referrer the product [datasheet](https://datasheets.max
 
 Bonus:
 
-* Heavily documented using [Doxygen](www.doxygen.org/) syntax.
+* Heavily documented using [Doxygen](http://www.doxygen.org/) syntax.
 * Reader friendly library. There is no black-magic difficult-to-understand piece of code. There are plenty of comments
   and the methods and variables names are very descriptives.
 * Library divided in many classes (OOP friendly). You are not obliged to include everything. Pick up only what you
